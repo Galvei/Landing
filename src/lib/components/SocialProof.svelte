@@ -1,19 +1,10 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { scrollReveal } from '$lib/utils/scrollReveal';
 	let visible = $state(false);
-	let el: HTMLElement;
-
-	onMount(() => {
-		const observer = new IntersectionObserver(
-			([entry]) => { if (entry.isIntersecting) visible = true; },
-			{ threshold: 0.3 }
-		);
-		observer.observe(el);
-		return () => observer.disconnect();
-	});
+	let above = $state(false);
 </script>
 
-<section class="social-proof" id="social-proof" bind:this={el} class:visible>
+<section class="social-proof" id="social-proof" use:scrollReveal={{ threshold: 0.3, onchange: (v, a) => { visible = v; above = a; } }} class:visible class:above>
 	<div class="proof-inner">
 		<span class="proof-item">
 			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16">
@@ -59,18 +50,26 @@
 	.social-proof {
 		position: relative;
 		z-index: 3;
-		padding: 2rem;
+		padding: 2.5rem 2rem;
 		background: rgba(196, 114, 78, 0.03);
 		border-top: 1px solid rgba(196, 114, 78, 0.06);
 		border-bottom: 1px solid rgba(196, 114, 78, 0.06);
 		opacity: 0;
-		transform: translateY(15px);
-		transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+		transform: translateY(12px) scale(0.98);
+		filter: blur(4px);
+		transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
 	}
 
 	.social-proof.visible {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translateY(0) scale(1);
+		filter: blur(0);
+	}
+
+	.social-proof.above {
+		opacity: 0;
+		transform: translateY(-12px) scale(0.98);
+		filter: blur(4px);
 	}
 
 	.proof-inner {

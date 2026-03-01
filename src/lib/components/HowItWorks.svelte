@@ -1,19 +1,10 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { scrollReveal } from '$lib/utils/scrollReveal';
 	let visible = $state(false);
-	let el: HTMLElement;
-
-	onMount(() => {
-		const observer = new IntersectionObserver(
-			([entry]) => { if (entry.isIntersecting) visible = true; },
-			{ threshold: 0.2 }
-		);
-		observer.observe(el);
-		return () => observer.disconnect();
-	});
+	let above = $state(false);
 </script>
 
-<section class="how-it-works" id="how-it-works" bind:this={el} class:visible>
+<section class="how-it-works" id="how-it-works" use:scrollReveal={{ threshold: 0.2, onchange: (v, a) => { visible = v; above = a; } }} class:visible class:above>
 	<h2 class="section-title">Up and running in three steps</h2>
 	<p class="section-sub">From zero to self-hosted in under five minutes.</p>
 
@@ -80,7 +71,7 @@
 		z-index: 3;
 		max-width: 900px;
 		margin: 0 auto;
-		padding: 6rem 2rem;
+		padding: 8rem 2rem;
 	}
 
 	.section-title {
@@ -91,6 +82,12 @@
 		color: rgba(232, 224, 212, 0.9);
 		margin: 0 0 0.6rem;
 		letter-spacing: 0.02em;
+		clip-path: inset(0 100% 0 0);
+		transition: clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.visible .section-title {
+		clip-path: inset(0 0 0 0);
 	}
 
 	.section-sub {
@@ -100,6 +97,16 @@
 		color: rgba(232, 224, 212, 0.35);
 		letter-spacing: 0.03em;
 		margin: 0 0 3.5rem;
+		opacity: 0;
+		transform: translateY(8px);
+		filter: blur(4px);
+		transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s, filter 0.5s ease 0.15s;
+	}
+
+	.visible .section-sub {
+		opacity: 1;
+		transform: translateY(0);
+		filter: blur(0);
 	}
 
 	.steps {
@@ -114,13 +121,24 @@
 		max-width: 260px;
 		text-align: center;
 		opacity: 0;
-		transform: translateY(20px);
-		transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+		transform: translateY(24px) scale(0.94);
+		filter: blur(6px);
+		transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
 	}
 
 	.visible .step {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translateY(0) scale(1);
+		filter: blur(0);
+	}
+
+	.step-connector {
+		opacity: 0;
+		transition: opacity 0.5s ease 0.4s;
+	}
+
+	.visible .step-connector {
+		opacity: 1;
 	}
 
 	.step-number {
@@ -154,9 +172,9 @@
 
 	.step-desc {
 		font-family: 'Inter', sans-serif;
-		font-size: 0.8rem;
+		font-size: 0.82rem;
 		color: rgba(232, 224, 212, 0.45);
-		line-height: 1.6;
+		line-height: 1.7;
 		margin: 0;
 	}
 
@@ -208,6 +226,16 @@
 		.step-connector svg {
 			transform: rotate(90deg);
 		}
+	}
+
+	.above .section-title { clip-path: inset(0 0 0 100%); }
+	.above .section-sub { opacity: 0; transform: translateY(-8px); filter: blur(4px); }
+	.above .step { opacity: 0; transform: translateY(-24px) scale(0.94); filter: blur(6px); }
+	.above .step-connector { opacity: 0; }
+
+	@media (prefers-reduced-motion: reduce) {
+		.section-title { clip-path: none; transition: none; }
+		.section-sub, .step, .step-connector { opacity: 1; transform: none; filter: none; transition: none; }
 	}
 
 	/* --- Light mode --- */

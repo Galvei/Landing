@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { scrollReveal } from '$lib/utils/scrollReveal';
 	let visible = $state(false);
+	let above = $state(false);
 	let submitted = $state(false);
 	let email = $state('');
-	let el: HTMLElement;
 
 	function handleSubmit(e: SubmitEvent) {
 		e.preventDefault();
@@ -11,18 +11,9 @@
 			submitted = true;
 		}
 	}
-
-	onMount(() => {
-		const observer = new IntersectionObserver(
-			([entry]) => { if (entry.isIntersecting) visible = true; },
-			{ threshold: 0.2 }
-		);
-		observer.observe(el);
-		return () => observer.disconnect();
-	});
 </script>
 
-<section class="waitlist" id="waitlist" bind:this={el} class:visible>
+<section class="waitlist" id="waitlist" use:scrollReveal={{ threshold: 0.2, onchange: (v, a) => { visible = v; above = a; } }} class:visible class:above>
 	<div class="waitlist-inner">
 		<h2 class="waitlist-title">Be the first to try Galvei</h2>
 		<p class="waitlist-subtitle">Join the waitlist for early access, development updates, and a voice in shaping the product.</p>
@@ -82,10 +73,15 @@
 	.waitlist {
 		position: relative;
 		z-index: 3;
-		padding: 6rem 2rem;
+		min-height: 80vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 4rem 2rem;
 		background: rgba(196, 114, 78, 0.04);
 		border-top: 1px solid rgba(196, 114, 78, 0.06);
 		border-bottom: 1px solid rgba(196, 114, 78, 0.06);
+		scroll-margin-top: 10vh;
 	}
 
 	.waitlist-inner {
@@ -93,13 +89,15 @@
 		margin: 0 auto;
 		text-align: center;
 		opacity: 0;
-		transform: translateY(20px);
-		transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+		transform: translateY(20px) scale(0.94);
+		filter: blur(8px);
+		transition: opacity 1s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
 	}
 
 	.visible .waitlist-inner {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translateY(0) scale(1);
+		filter: blur(0);
 	}
 
 	.waitlist-title {
@@ -109,14 +107,20 @@
 		color: #c4724e;
 		margin: 0 0 0.8rem;
 		letter-spacing: 0.02em;
+		clip-path: inset(0 100% 0 0);
+		transition: clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+	}
+
+	.visible .waitlist-title {
+		clip-path: inset(0 0 0 0);
 	}
 
 	.waitlist-subtitle {
 		font-family: 'Inter', sans-serif;
 		font-size: 0.9rem;
-		color: rgba(232, 224, 212, 0.55);
+		color: rgba(232, 224, 212, 0.45);
 		line-height: 1.7;
-		margin: 0 0 2.5rem;
+		margin: 0 0 3rem;
 	}
 
 	.waitlist-form {
@@ -171,7 +175,7 @@
 
 	.waitlist-btn:hover {
 		background: #d4845e;
-		box-shadow: 0 0 16px rgba(196, 114, 78, 0.25);
+		box-shadow: 0 0 16px rgba(196, 114, 78, 0.25), 0 0 50px rgba(196, 114, 78, 0.1);
 	}
 
 	.waitlist-success {
@@ -220,6 +224,9 @@
 		color: rgba(232, 224, 212, 0.25);
 		margin: 0;
 	}
+
+	.above .waitlist-inner { opacity: 0; transform: translateY(-20px) scale(0.94); filter: blur(8px); }
+	.above .waitlist-title { clip-path: inset(0 0 0 100%); }
 
 	/* --- Light mode --- */
 	@media (prefers-color-scheme: light) {

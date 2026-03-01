@@ -48,7 +48,7 @@
 
 	// Scroll-based dimming
 	const FADE_HEIGHT = 100; // px of gradual transition
-	const DIM_ALPHA = 1.0; // fully opaque — matrix invisible under content
+	const DIM_ALPHA = 1.0; // fully opaque  matrix invisible under content
 
 	// Edge dimming — soft vignette at top/bottom so matrix doesn't clash with nav/footer
 	const TOP_FADE = 90; // px from top

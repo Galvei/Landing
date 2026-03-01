@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { scrollReveal } from '$lib/utils/scrollReveal';
 	let visible = $state(false);
-	let el: HTMLElement;
+	let above = $state(false);
 
 	const problems = [
 		{ title: 'Setup is painful', desc: "You shouldn't need a CS degree to install Nextcloud." },
@@ -19,18 +19,10 @@
 		{ title: 'All-in-one dashboard', desc: 'Containers, networking, monitoring, files. One screen.' },
 	];
 
-	onMount(() => {
-		const observer = new IntersectionObserver(
-			([entry]) => { if (entry.isIntersecting) visible = true; },
-			{ threshold: 0.15 }
-		);
-		observer.observe(el);
-		return () => observer.disconnect();
-	});
 </script>
 
-<section class="problem-solution" id="problem-solution" bind:this={el} class:visible>
-	<h2 class="section-title">Self-hosting is powerful.<br/>Setting it up shouldn't be.</h2>
+<section class="problem-solution" id="problem-solution" use:scrollReveal={{ threshold: 0.15, onchange: (v, a) => { visible = v; above = a; } }} class:visible class:above>
+	<h2 class="section-title parallax-title">Self-hosting is powerful.<br/>Setting it up shouldn't be.</h2>
 
 	<div class="ps-grid">
 		<div class="ps-column ps-problems">
@@ -83,20 +75,35 @@
 	.problem-solution {
 		position: relative;
 		z-index: 3;
-		max-width: 960px;
+		max-width: 900px;
 		margin: 0 auto;
-		padding: 6rem 2rem;
+		padding: 8rem 2rem;
 	}
 
 	.section-title {
 		font-family: 'DM Serif Display', Georgia, serif;
-		font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+		font-size: clamp(1.6rem, 4vw, 2.2rem);
 		font-weight: 400;
 		text-align: center;
 		color: rgba(232, 224, 212, 0.9);
 		margin: 0 0 3.5rem;
 		line-height: 1.3;
-		letter-spacing: 0.01em;
+		letter-spacing: 0.02em;
+		clip-path: inset(0 100% 0 0);
+		transition: clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.visible .section-title {
+		clip-path: inset(0 0 0 0);
+	}
+
+	.parallax-title {
+		transform: translateY(calc(var(--scroll-y, 0) * -0.03px));
+		will-change: transform;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.parallax-title { transform: none; will-change: auto; }
 	}
 
 	.ps-grid {
@@ -145,20 +152,36 @@
 		align-items: flex-start;
 		gap: 0.8rem;
 		padding: 1rem 1.2rem;
-		border-radius: 10px;
+		border-radius: 12px;
 		border: 1px solid transparent;
-		transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+		transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease, background 0.3s ease, border-color 0.3s ease;
 	}
 
 	.visible .ps-card {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translateX(0);
+		filter: blur(0);
 	}
 
-	.problem-solution:not(.visible) .ps-card {
+	.problem-solution:not(.visible):not(.above) .ps-card--problem {
 		opacity: 0;
-		transform: translateY(15px);
+		transform: translateX(-24px);
+		filter: blur(4px);
 	}
+
+	.problem-solution:not(.visible):not(.above) .ps-card--solution {
+		opacity: 0;
+		transform: translateX(24px);
+		filter: blur(4px);
+	}
+
+	.above .ps-card {
+		opacity: 0;
+		transform: translateY(-20px);
+		filter: blur(4px);
+	}
+
+	.above .section-title { clip-path: inset(0 0 0 100%); }
 
 	.ps-card--problem {
 		background: rgba(232, 224, 212, 0.02);
@@ -204,9 +227,9 @@
 
 	.ps-card-desc {
 		font-family: 'Inter', sans-serif;
-		font-size: 0.78rem;
+		font-size: 0.82rem;
 		color: rgba(232, 224, 212, 0.45);
-		line-height: 1.6;
+		line-height: 1.7;
 		margin: 0;
 	}
 
@@ -223,6 +246,11 @@
 		.ps-arrow svg {
 			transform: rotate(90deg);
 		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.section-title { clip-path: none; transition: none; }
+		.ps-card { opacity: 1; transform: none; filter: none; transition: background 0.3s ease, border-color 0.3s ease; }
 	}
 
 	/* --- Light mode --- */

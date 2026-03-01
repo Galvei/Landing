@@ -1,19 +1,10 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { scrollReveal } from '$lib/utils/scrollReveal';
 	let visible = $state(false);
-	let el: HTMLElement;
-
-	onMount(() => {
-		const observer = new IntersectionObserver(
-			([entry]) => { if (entry.isIntersecting) visible = true; },
-			{ threshold: 0.3 }
-		);
-		observer.observe(el);
-		return () => observer.disconnect();
-	});
+	let above = $state(false);
 </script>
 
-<section class="final-cta" bind:this={el} class:visible>
+<section class="final-cta" use:scrollReveal={{ threshold: 0.05, onchange: (v, a) => { visible = v; above = a; } }} class:visible class:above>
 	<div class="final-inner">
 		<h2 class="final-title">Your cloud. Your rules.</h2>
 		<p class="final-sub">Join the waitlist and be first in line.</p>
@@ -26,21 +17,28 @@
 	.final-cta {
 		position: relative;
 		z-index: 3;
-		padding: 6rem 2rem;
+		min-height: 60vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 4rem 2rem;
 		text-align: center;
 	}
 
 	.final-inner {
 		max-width: 600px;
+		width: 100%;
 		margin: 0 auto;
 		opacity: 0;
-		transform: translateY(20px);
-		transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+		transform: translateY(24px) scale(0.9);
+		filter: blur(8px);
+		transition: opacity 1s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
 	}
 
 	.visible .final-inner {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translateY(0) scale(1);
+		filter: blur(0);
 	}
 
 	.final-title {
@@ -50,12 +48,18 @@
 		color: #c4724e;
 		margin: 0 0 0.6rem;
 		letter-spacing: 0.01em;
+		clip-path: inset(0 100% 0 0);
+		transition: clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+	}
+
+	.visible .final-title {
+		clip-path: inset(0 0 0 0);
 	}
 
 	.final-sub {
 		font-family: 'Inter', sans-serif;
 		font-size: 1rem;
-		color: rgba(232, 224, 212, 0.5);
+		color: rgba(232, 224, 212, 0.45);
 		margin: 0 0 2rem;
 	}
 
@@ -76,7 +80,7 @@
 
 	.final-btn:hover {
 		background: #d4845e;
-		box-shadow: 0 0 20px rgba(196, 114, 78, 0.25);
+		box-shadow: 0 0 20px rgba(196, 114, 78, 0.3), 0 0 60px rgba(196, 114, 78, 0.12);
 		transform: translateY(-2px);
 	}
 
@@ -97,6 +101,9 @@
 	.final-link:hover {
 		color: #c4724e;
 	}
+
+	.above .final-inner { opacity: 0; transform: translateY(-24px) scale(0.9); filter: blur(8px); }
+	.above .final-title { clip-path: inset(0 0 0 100%); }
 
 	/* --- Light mode --- */
 	@media (prefers-color-scheme: light) {

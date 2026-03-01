@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { scrollReveal } from '$lib/utils/scrollReveal';
 	let visible = $state(false);
+	let above = $state(false);
 	let openIndex = $state(-1);
-	let el: HTMLElement;
 
 	function toggle(i: number) {
 		openIndex = openIndex === i ? -1 : i;
@@ -43,17 +43,9 @@
 		},
 	];
 
-	onMount(() => {
-		const observer = new IntersectionObserver(
-			([entry]) => { if (entry.isIntersecting) visible = true; },
-			{ threshold: 0.1 }
-		);
-		observer.observe(el);
-		return () => observer.disconnect();
-	});
 </script>
 
-<section class="faq" id="faq" bind:this={el} class:visible>
+<section class="faq" id="faq" use:scrollReveal={{ threshold: 0.1, onchange: (v, a) => { visible = v; above = a; } }} class:visible class:above>
 	<h2 class="section-title">Questions?</h2>
 	<p class="section-sub">Everything you need to know about Galvei and self-hosting.</p>
 
@@ -88,7 +80,7 @@
 		z-index: 3;
 		max-width: 720px;
 		margin: 0 auto;
-		padding: 6rem 2rem;
+		padding: 8rem 2rem;
 	}
 
 	.section-title {
@@ -99,6 +91,12 @@
 		color: rgba(232, 224, 212, 0.9);
 		margin: 0 0 0.6rem;
 		letter-spacing: 0.02em;
+		clip-path: inset(0 100% 0 0);
+		transition: clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.visible .section-title {
+		clip-path: inset(0 0 0 0);
 	}
 
 	.section-sub {
@@ -108,6 +106,16 @@
 		color: rgba(232, 224, 212, 0.35);
 		letter-spacing: 0.03em;
 		margin: 0 0 3.5rem;
+		opacity: 0;
+		transform: translateY(8px);
+		filter: blur(4px);
+		transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s, filter 0.5s ease 0.15s;
+	}
+
+	.visible .section-sub {
+		opacity: 1;
+		transform: translateY(0);
+		filter: blur(0);
 	}
 
 	.faq-list {
@@ -118,13 +126,15 @@
 	.faq-item {
 		border-bottom: 1px solid rgba(232, 224, 212, 0.06);
 		opacity: 0;
-		transform: translateY(10px);
-		transition: opacity 0.5s ease, transform 0.5s ease;
+		transform: translateX(20px);
+		filter: blur(3px);
+		transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
 	}
 
 	.visible .faq-item {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translateX(0);
+		filter: blur(0);
 	}
 
 	.faq-question {
@@ -179,10 +189,19 @@
 	.faq-answer p {
 		font-family: 'Inter', sans-serif;
 		font-size: 0.85rem;
-		color: rgba(232, 224, 212, 0.5);
+		color: rgba(232, 224, 212, 0.45);
 		line-height: 1.7;
 		margin: 0;
 		padding: 0 0 1.2rem;
+	}
+
+	.above .section-title { clip-path: inset(0 0 0 100%); }
+	.above .section-sub { opacity: 0; transform: translateY(-8px); filter: blur(4px); }
+	.above .faq-item { opacity: 0; transform: translateX(-20px); filter: blur(3px); }
+
+	@media (prefers-reduced-motion: reduce) {
+		.section-title { clip-path: none; transition: none; }
+		.section-sub, .faq-item { opacity: 1; transform: none; filter: none; transition: none; }
 	}
 
 	/* --- Light mode --- */

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { scrollReveal } from '$lib/utils/scrollReveal';
 	let visible = $state(false);
-	let el: HTMLElement;
+	let above = $state(false);
 
 	const features = [
 		{
@@ -36,17 +36,9 @@
 		},
 	];
 
-	onMount(() => {
-		const observer = new IntersectionObserver(
-			([entry]) => { if (entry.isIntersecting) visible = true; },
-			{ threshold: 0.15 }
-		);
-		observer.observe(el);
-		return () => observer.disconnect();
-	});
 </script>
 
-<section class="features-section" id="features" bind:this={el} class:visible>
+<section class="features-section" id="features" use:scrollReveal={{ threshold: 0.15, onchange: (v, a) => { visible = v; above = a; } }} class:visible class:above>
 	<h2 class="section-title">What you get</h2>
 	<p class="section-sub">Everything you need to run your own cloud.</p>
 	<div class="features-grid">
@@ -98,9 +90,9 @@
 	.features-section {
 		position: relative;
 		z-index: 3;
-		max-width: 820px;
+		max-width: 900px;
 		margin: 0 auto;
-		padding: 6rem 2rem 8rem;
+		padding: 8rem 2rem;
 	}
 
 	.section-title {
@@ -111,6 +103,12 @@
 		text-align: center;
 		color: rgba(232, 224, 212, 0.9);
 		margin: 0 0 0.6rem;
+		clip-path: inset(0 100% 0 0);
+		transition: clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.visible .section-title {
+		clip-path: inset(0 0 0 0);
 	}
 
 	.section-sub {
@@ -120,6 +118,16 @@
 		color: rgba(232, 224, 212, 0.35);
 		letter-spacing: 0.03em;
 		margin: 0 0 3.5rem;
+		opacity: 0;
+		transform: translateY(8px);
+		filter: blur(4px);
+		transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s, filter 0.5s ease 0.15s;
+	}
+
+	.visible .section-sub {
+		opacity: 1;
+		transform: translateY(0);
+		filter: blur(0);
 	}
 
 	.features-grid {
@@ -133,29 +141,30 @@
 	}
 
 	.feature-card {
-		background: rgba(232, 224, 212, 0.03);
+		background: rgba(232, 224, 212, 0.02);
 		border: 1px solid rgba(232, 224, 212, 0.06);
 		border-radius: 12px;
 		padding: 2rem 1.5rem;
-		transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 		opacity: 0;
-		transform: translateY(15px);
+		transform: translateY(24px) scale(0.92);
+		filter: blur(6px);
+		transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+			filter 0.6s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 	}
 
 	.visible .feature-card {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translateY(0) scale(1);
+		filter: blur(0);
 	}
 
-	.feature-card:hover {
+	.feature-card:hover,
+	.visible .feature-card:hover {
 		background: rgba(196, 114, 78, 0.04);
 		border-color: rgba(196, 114, 78, 0.15);
-		transform: translateY(-3px);
-		box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-	}
-
-	.visible .feature-card:hover {
-		transform: translateY(-3px);
+		transform: translateY(-2px) scale(1);
+		box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+		filter: blur(0);
 	}
 
 	.feature-icon {
@@ -181,6 +190,15 @@
 		color: rgba(232, 224, 212, 0.45);
 		line-height: 1.7;
 		margin: 0;
+	}
+
+	.above .section-title { clip-path: inset(0 0 0 100%); }
+	.above .section-sub { opacity: 0; transform: translateY(-8px); filter: blur(4px); }
+	.above .feature-card { opacity: 0; transform: translateY(-24px) scale(0.92); filter: blur(6px); }
+
+	@media (prefers-reduced-motion: reduce) {
+		.section-title { clip-path: none; transition: none; }
+		.section-sub, .feature-card { opacity: 1; transform: none; filter: none; transition: background 0.3s ease, border-color 0.3s ease; }
 	}
 
 	/* --- Light mode --- */

@@ -34,6 +34,14 @@
 		text-rendering: optimizeLegibility;
 	}
 
+	/* Reduced motion: disable all animations */
+	@media (prefers-reduced-motion: reduce) {
+		:global(*) {
+			animation-duration: 0.01ms !important;
+			transition-duration: 0.01ms !important;
+		}
+	}
+
 	:global(::selection) {
 		background: rgba(196, 114, 78, 0.3);
 		color: #fff;

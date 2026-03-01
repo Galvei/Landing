@@ -39,22 +39,26 @@
 
 <section class="hero-section" id="top">
 	<div class="hero">
-		<div class="deco-line"></div>
+		<div class="parallax-slow">
+			<div class="deco-line"></div>
 
-		<h1 class="title">
-			Your server. Your apps.<br />
-			<span class="accent">No terminal required.</span>
-		</h1>
+			<h1 class="title">
+				Your server. Your apps.<br />
+				<span class="accent">No terminal required.</span>
+			</h1>
+		</div>
 
-		<p class="subtitle">
-			{displayedText}<span class="type-cursor" class:blink={showCursor}>_</span>
-		</p>
+		<div class="parallax-medium">
+			<p class="subtitle">
+				{displayedText}<span class="type-cursor" class:blink={showCursor}>_</span>
+			</p>
 
-		<p class="description">
-			Galvei turns any Linux machine into a personal cloud. Deploy apps, manage everything from a dashboard, no command line needed.
-		</p>
+			<p class="description">
+				Galvei turns any Linux machine into a personal cloud. Deploy apps, manage everything from a dashboard, no command line needed.
+			</p>
+		</div>
 
-		<div class="hero-waitlist">
+		<div class="parallax-fast hero-waitlist">
 			{#if submitted}
 				<div class="waitlist-success">
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
@@ -124,13 +128,52 @@
 		background: none;
 	}
 
+	/* Parallax layers — each moves at different speed on scroll */
+	.parallax-slow {
+		transform: translateY(calc(var(--scroll-y, 0) * -0.08px));
+		will-change: transform;
+	}
+
+	.parallax-medium {
+		transform: translateY(calc(var(--scroll-y, 0) * -0.15px));
+		will-change: transform;
+	}
+
+	.parallax-fast {
+		transform: translateY(calc(var(--scroll-y, 0) * -0.25px));
+		will-change: transform;
+	}
+
+	/* Hero fade-out on scroll */
+	.hero-section {
+		opacity: calc(1 - var(--scroll-y, 0) / 800);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.parallax-slow,
+		.parallax-medium,
+		.parallax-fast {
+			transform: none;
+			will-change: auto;
+		}
+		.hero-section {
+			opacity: 1;
+		}
+	}
+
 	.deco-line {
 		width: 40px;
 		height: 2px;
 		margin: 0 auto 2rem;
-		background: #c4724e;
+		background: linear-gradient(90deg, transparent, #c4724e, transparent);
 		border-radius: 1px;
-		opacity: 0.6;
+		opacity: 0;
+		animation: fade-up 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both, line-expand 1.2s ease 0.3s both;
+	}
+
+	@keyframes line-expand {
+		from { width: 0; opacity: 0; }
+		to { width: 40px; opacity: 0.6; }
 	}
 
 	.title {
@@ -141,15 +184,25 @@
 		margin: 0 0 1rem;
 		line-height: 1.2;
 		color: rgba(232, 224, 212, 0.9);
-		animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+		animation: fade-up 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
 	}
 
 	.accent {
-		color: #c4724e;
+		background: linear-gradient(135deg, #c4724e 0%, #d4845e 40%, #c4724e 80%);
+		background-size: 200% auto;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1), shimmer 8s ease-in-out infinite;
+	}
+
+	@keyframes shimmer {
+		0%, 100% { background-position: 0% center; }
+		50% { background-position: 100% center; }
 	}
 
 	@keyframes fade-up {
-		from { opacity: 0; transform: translateY(30px); }
+		from { opacity: 0; transform: translateY(16px); }
 		to { opacity: 1; transform: translateY(0); }
 	}
 
@@ -162,6 +215,7 @@
 		text-transform: uppercase;
 		margin: 0 0 2rem;
 		min-height: 1.8em;
+		animation: fade-up 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
 	}
 
 	.type-cursor {
@@ -183,10 +237,11 @@
 		font-size: clamp(0.9rem, 1.5vw, 1.05rem);
 		font-weight: 300;
 		color: rgba(232, 224, 212, 0.55);
-		line-height: 1.9;
+		line-height: 1.7;
 		max-width: 520px;
 		margin: 0 auto 2.5rem;
 		letter-spacing: 0.01em;
+		animation: fade-up 1s cubic-bezier(0.16, 1, 0.3, 1) 0.65s both;
 	}
 
 	.hero-waitlist {
@@ -195,7 +250,7 @@
 		border: 1px solid rgba(196, 114, 78, 0.2);
 		border-radius: 12px;
 		background: rgba(196, 114, 78, 0.04);
-		animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+		animation: fade-up 1s cubic-bezier(0.16, 1, 0.3, 1) 0.8s both;
 	}
 
 	.hero-waitlist-label {
@@ -259,7 +314,7 @@
 
 	.waitlist-btn:hover {
 		background: #d4845e;
-		box-shadow: 0 0 16px rgba(196, 114, 78, 0.2);
+		box-shadow: 0 0 16px rgba(196, 114, 78, 0.25), 0 0 40px rgba(196, 114, 78, 0.1);
 	}
 
 	.waitlist-note {
@@ -285,7 +340,7 @@
 		gap: 1.25rem;
 		justify-content: center;
 		flex-wrap: wrap;
-		animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+		animation: fade-up 1s cubic-bezier(0.16, 1, 0.3, 1) 0.95s both;
 	}
 
 	.btn {
@@ -316,7 +371,7 @@
 
 	.btn-discord:hover {
 		background: #4752C4;
-		box-shadow: 0 4px 20px rgba(88, 101, 242, 0.25);
+		box-shadow: 0 4px 20px rgba(88, 101, 242, 0.25), 0 0 40px rgba(88, 101, 242, 0.1);
 		transform: translateY(-2px);
 	}
 
@@ -359,7 +414,7 @@
 		align-items: center;
 		justify-content: center;
 		gap: 0.5rem;
-		animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+		animation: fade-up 1s cubic-bezier(0.16, 1, 0.3, 1) 1.1s both;
 	}
 
 	.status-dot {
@@ -390,7 +445,7 @@
 		gap: 0.5rem;
 		margin-top: 2.5rem;
 		text-decoration: none;
-		animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both;
+		animation: fade-up 1s cubic-bezier(0.16, 1, 0.3, 1) 1.3s both;
 		transition: all 0.3s ease;
 	}
 
@@ -415,11 +470,17 @@
 	/* --- Light mode --- */
 	@media (prefers-color-scheme: light) {
 		.title { color: #2c2418; }
-		.accent { color: #993d1c; }
+		.accent {
+			background: linear-gradient(135deg, #993d1c 0%, #b05a38 40%, #993d1c 80%);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+			background-size: 200% auto;
+		}
 		.subtitle { color: rgba(44, 36, 24, 0.85); }
 		.description { color: rgba(44, 36, 24, 0.75); }
 		.type-cursor { color: #993d1c; }
-		.deco-line { background: #993d1c; }
+		.deco-line { background: linear-gradient(90deg, transparent, #993d1c, transparent); }
 
 		.btn-donate {
 			background: rgba(176, 90, 56, 0.1);

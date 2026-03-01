@@ -10,14 +10,7 @@
 		menuOpen = false;
 	}
 
-	function handleNavClick(e: MouseEvent) {
-		const target = e.target as HTMLElement;
-		if (target.tagName === 'A') {
-			closeMenu();
-		}
-	}
-
-	import { onMount } from 'svelte';
+import { onMount } from 'svelte';
 	onMount(() => {
 		window.addEventListener('scroll', handleScroll, { passive: true });
 		return () => window.removeEventListener('scroll', handleScroll);
@@ -28,18 +21,14 @@
 	<div class="navbar-inner">
 		<a href="#top" class="navbar-logo">Galvei</a>
 
-		<div class="navbar-center" class:open={menuOpen} onclick={handleNavClick}>
-			<a href="#features" class="nav-link">Features</a>
-			<a href="#how-it-works" class="nav-link">How It Works</a>
-			<a href="#roadmap" class="nav-link">Roadmap</a>
-			<a href="#faq" class="nav-link">FAQ</a>
+		<div class="navbar-center" class:open={menuOpen}>
+			<a href="#features" class="nav-link" onclick={closeMenu}>Features</a>
+			<a href="#how-it-works" class="nav-link" onclick={closeMenu}>How It Works</a>
+			<a href="#roadmap" class="nav-link" onclick={closeMenu}>Roadmap</a>
+			<a href="#faq" class="nav-link" onclick={closeMenu}>FAQ</a>
 		</div>
 
 		<div class="navbar-right">
-			<span class="status-badge">
-				<span class="status-dot"></span>
-				In Development
-			</span>
 			<a href="#waitlist" class="nav-cta">Join Waitlist</a>
 		</div>
 
@@ -123,32 +112,7 @@
 		flex-shrink: 0;
 	}
 
-	.status-badge {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.4rem;
-		font-family: 'Inter', sans-serif;
-		font-size: 0.6rem;
-		font-weight: 500;
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
-		color: rgba(232, 224, 212, 0.35);
-	}
-
-	.status-dot {
-		width: 5px;
-		height: 5px;
-		border-radius: 50%;
-		background: #7a8a6e;
-		animation: dot-pulse 2s ease-in-out infinite;
-	}
-
-	@keyframes dot-pulse {
-		0%, 100% { box-shadow: 0 0 3px #7a8a6e; opacity: 0.8; }
-		50% { box-shadow: 0 0 6px #7a8a6e; opacity: 1; }
-	}
-
-	.nav-cta {
+.nav-cta {
 		font-family: 'Inter', sans-serif;
 		font-size: 0.75rem;
 		font-weight: 500;
@@ -164,7 +128,7 @@
 
 	.nav-cta:hover {
 		background: #d4845e;
-		box-shadow: 0 0 12px rgba(196, 114, 78, 0.2);
+		box-shadow: 0 0 12px rgba(196, 114, 78, 0.25), 0 0 30px rgba(196, 114, 78, 0.08);
 	}
 
 	.hamburger {
@@ -225,10 +189,6 @@
 			font-size: 0.9rem;
 		}
 
-		.status-badge {
-			display: none;
-		}
-
 		.hamburger {
 			display: flex;
 		}
@@ -251,9 +211,7 @@
 		.navbar-logo { color: #993d1c; }
 		.nav-link { color: rgba(44, 36, 24, 0.55); }
 		.nav-link:hover { color: #2c2418; }
-		.status-badge { color: rgba(44, 36, 24, 0.5); }
-		.status-dot { background: #4a6038; }
-		.nav-cta { background: #993d1c; color: #fff; }
+.nav-cta { background: #993d1c; color: #fff; }
 		.nav-cta:hover { background: #b05a38; }
 		.hamburger span { background: rgba(44, 36, 24, 0.6); }
 

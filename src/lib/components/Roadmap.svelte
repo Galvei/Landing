@@ -1,7 +1,32 @@
-<section class="roadmap" id="roadmap">
+<script lang="ts">
+	import { onMount } from 'svelte';
+	import { scrollReveal } from '$lib/utils/scrollReveal';
+	let visible = $state(false);
+	let above = $state(false);
+	let el: HTMLElement;
+
+	onMount(() => {
+		let ticking = false;
+		function updateTimeline() {
+			const rect = el.getBoundingClientRect();
+			const vh = window.innerHeight;
+			const scrolledInto = Math.max(0, vh * 0.5 - rect.top);
+			const progress = Math.min(1, scrolledInto / (el.offsetHeight * 0.75));
+			el.style.setProperty('--timeline-progress', progress.toFixed(3));
+			ticking = false;
+		}
+		function onScroll() {
+			if (!ticking) { requestAnimationFrame(updateTimeline); ticking = true; }
+		}
+		window.addEventListener('scroll', onScroll, { passive: true });
+		updateTimeline();
+		return () => window.removeEventListener('scroll', onScroll);
+	});
+</script>
+
+<section class="roadmap" id="roadmap" bind:this={el} use:scrollReveal={{ threshold: 0.1, onchange: (v, a) => { visible = v; above = a; } }} class:visible class:above>
 	<h2 class="section-title">Roadmap</h2>
 	<p class="section-sub">From first deploy to full platform</p>
-<!-- phase-done, phase-active, phase-future phase-badge--done phase-badge--current-->
 	<div class="timeline">
 		<div class="phase phase--active">
 			<div class="phase-dot">
@@ -210,7 +235,7 @@
 		z-index: 3;
 		max-width: 620px;
 		margin: 0 auto;
-		padding: 4rem 2rem 8rem;
+		padding: 8rem 2rem;
 	}
 
 	.section-title {
@@ -221,6 +246,12 @@
 		text-align: center;
 		color: rgba(232, 224, 212, 0.9);
 		margin: 0 0 0.6rem;
+		clip-path: inset(0 100% 0 0);
+		transition: clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.visible .section-title {
+		clip-path: inset(0 0 0 0);
 	}
 
 	.section-sub {
@@ -230,6 +261,16 @@
 		color: rgba(232, 224, 212, 0.35);
 		letter-spacing: 0.03em;
 		margin: 0 0 3.5rem;
+		opacity: 0;
+		transform: translateY(8px);
+		filter: blur(4px);
+		transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s, filter 0.5s ease 0.15s;
+	}
+
+	.visible .section-sub {
+		opacity: 1;
+		transform: translateY(0);
+		filter: blur(0);
 	}
 
 	.timeline {
@@ -249,12 +290,36 @@
 		width: 5px;
 		border-radius: 5px;
 		background: linear-gradient(180deg, #c4724e 0%, rgba(196, 114, 78, 0.3) 25%, rgba(196, 114, 78, 0.1) 60%, rgba(196, 114, 78, 0.04) 100%);
+		transform-origin: top;
+		transform: scaleY(var(--timeline-progress, 0));
 	}
 
 	.phase {
 		position: relative;
 		padding-bottom: 2.5rem;
+		opacity: 0;
+		transform: translateX(-20px);
+		filter: blur(4px);
+		transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
 	}
+
+	.visible .phase {
+		opacity: 1;
+		transform: translateX(0);
+		filter: blur(0);
+	}
+
+	/* Stagger each phase */
+	.visible .phase:nth-child(1) { transition-delay: 0s; }
+	.visible .phase:nth-child(2) { transition-delay: 0.06s; }
+	.visible .phase:nth-child(3) { transition-delay: 0.12s; }
+	.visible .phase:nth-child(4) { transition-delay: 0.18s; }
+	.visible .phase:nth-child(5) { transition-delay: 0.24s; }
+	.visible .phase:nth-child(6) { transition-delay: 0.3s; }
+	.visible .phase:nth-child(7) { transition-delay: 0.36s; }
+	.visible .phase:nth-child(8) { transition-delay: 0.42s; }
+	.visible .phase:nth-child(9) { transition-delay: 0.48s; }
+	.visible .phase:nth-child(10) { transition-delay: 0.54s; }
 
 	.phase:last-child { padding-bottom: 0; }
 
@@ -271,16 +336,7 @@
 		z-index: 1;
 	}
 
-	.phase--done .phase-dot {
-		border-color: #c4724e;
-		background: #c4724e;
-		box-shadow: 0 0 8px rgba(196, 114, 78, 0.3);
-	}
-
-	.phase--done .phase-card { opacity: 0.6; }
-	.phase--done:hover .phase-card { opacity: 1; }
-
-	.phase--active .phase-dot {
+.phase--active .phase-dot {
 		border-color: #c4724e;
 		background: #c4724e;
 		box-shadow: 0 0 12px rgba(196, 114, 78, 0.4);
@@ -321,13 +377,7 @@
 		border: 1px solid rgba(196, 114, 78, 0.3);
 	}
 
-	.phase-badge--done {
-		background: rgba(196, 114, 78, 0.08);
-		color: rgba(196, 114, 78, 0.6);
-		border: 1px solid rgba(196, 114, 78, 0.12);
-	}
-
-	.phase-progress {
+.phase-progress {
 		margin-top: 1rem;
 		height: 3px;
 		background: rgba(232, 224, 212, 0.06);
@@ -408,7 +458,7 @@
 		font-family: 'Inter', sans-serif;
 		font-size: 0.8rem;
 		color: rgba(232, 224, 212, 0.45);
-		line-height: 1.6;
+		line-height: 1.7;
 		margin: 0 0 1.2rem;
 	}
 
@@ -442,6 +492,16 @@
 		color: rgba(232, 224, 212, 0.7);
 	}
 
+	.above .section-title { clip-path: inset(0 0 0 100%); }
+	.above .section-sub { opacity: 0; transform: translateY(-8px); filter: blur(4px); }
+	.above .phase { opacity: 0; transform: translateX(20px); filter: blur(4px); }
+
+	@media (prefers-reduced-motion: reduce) {
+		.section-title { clip-path: none; transition: none; }
+		.section-sub, .phase { opacity: 1; transform: none; filter: none; transition: none; }
+		.timeline::before { transform: scaleY(1); }
+	}
+
 	/* --- Light mode --- */
 	@media (prefers-color-scheme: light) {
 		.section-title { color: #2c2418; }
@@ -452,12 +512,10 @@
 		}
 
 		.phase-dot { background: #f5f0e8; border-color: rgba(44, 36, 24, 0.15); }
-		.phase--done .phase-dot { background: #b05a38; border-color: #b05a38; box-shadow: 0 0 6px rgba(176, 90, 56, 0.25); }
-		.phase--active .phase-dot { background: #b05a38; border-color: #b05a38; box-shadow: 0 0 10px rgba(176, 90, 56, 0.35); }
+.phase--active .phase-dot { background: #b05a38; border-color: #b05a38; box-shadow: 0 0 10px rgba(176, 90, 56, 0.35); }
 		.dot-ping { background: #b05a38; }
 
 		.phase-badge--current { background: rgba(176, 90, 56, 0.1); color: #8a3a1c; border-color: rgba(176, 90, 56, 0.25); }
-		.phase-badge--done { background: rgba(176, 90, 56, 0.06); color: rgba(176, 90, 56, 0.7); border-color: rgba(176, 90, 56, 0.1); }
 
 		.phase-progress { background: rgba(44, 36, 24, 0.08); }
 		.phase-progress-bar { background: linear-gradient(90deg, #b05a38, #c4724e); }

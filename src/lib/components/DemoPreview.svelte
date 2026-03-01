@@ -1,19 +1,10 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { scrollReveal } from '$lib/utils/scrollReveal';
 	let visible = $state(false);
-	let el: HTMLElement;
-
-	onMount(() => {
-		const observer = new IntersectionObserver(
-			([entry]) => { if (entry.isIntersecting) visible = true; },
-			{ threshold: 0.2 }
-		);
-		observer.observe(el);
-		return () => observer.disconnect();
-	});
+	let above = $state(false);
 </script>
 
-<section class="demo-preview" id="demo" bind:this={el} class:visible>
+<section class="demo-preview" id="demo" use:scrollReveal={{ threshold: 0.2, onchange: (v, a) => { visible = v; above = a; } }} class:visible class:above>
 	<h2 class="section-title">See it in action</h2>
 	<p class="section-sub">Your personal cloud dashboard. Clean, fast, and no terminal in sight.</p>
 
@@ -93,7 +84,7 @@
 		z-index: 3;
 		max-width: 900px;
 		margin: 0 auto;
-		padding: 6rem 2rem;
+		padding: 8rem 2rem;
 	}
 
 	.section-title {
@@ -104,6 +95,12 @@
 		color: rgba(232, 224, 212, 0.9);
 		margin: 0 0 0.6rem;
 		letter-spacing: 0.02em;
+		clip-path: inset(0 100% 0 0);
+		transition: clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.visible .section-title {
+		clip-path: inset(0 0 0 0);
 	}
 
 	.section-sub {
@@ -112,7 +109,17 @@
 		font-size: 0.85rem;
 		color: rgba(232, 224, 212, 0.35);
 		letter-spacing: 0.03em;
-		margin: 0 0 3rem;
+		margin: 0 0 3.5rem;
+		opacity: 0;
+		transform: translateY(8px);
+		filter: blur(4px);
+		transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s, filter 0.5s ease 0.15s;
+	}
+
+	.visible .section-sub {
+		opacity: 1;
+		transform: translateY(0);
+		filter: blur(0);
 	}
 
 	.preview-frame {
@@ -122,13 +129,15 @@
 		background: rgba(26, 23, 18, 0.5);
 		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 		opacity: 0;
-		transform: translateY(20px) scale(0.98);
-		transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+		transform: perspective(1200px) rotateX(5deg) translateY(30px) scale(0.92);
+		filter: blur(6px);
+		transition: opacity 1s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
 	}
 
 	.visible .preview-frame {
 		opacity: 1;
-		transform: translateY(0) scale(1);
+		transform: perspective(1200px) rotateX(0) translateY(0) scale(1);
+		filter: blur(0);
 	}
 
 	.preview-chrome {
@@ -326,6 +335,15 @@
 	@media (max-width: 640px) {
 		.mock-sidebar { display: none; }
 		.mock-stats { flex-direction: column; }
+	}
+
+	.above .section-title { clip-path: inset(0 0 0 100%); }
+	.above .section-sub { opacity: 0; transform: translateY(-8px); filter: blur(4px); }
+	.above .preview-frame { opacity: 0; transform: perspective(1200px) rotateX(-5deg) translateY(-30px) scale(0.92); filter: blur(6px); }
+
+	@media (prefers-reduced-motion: reduce) {
+		.section-title { clip-path: none; transition: none; }
+		.section-sub, .preview-frame { opacity: 1; transform: none; filter: none; transition: none; }
 	}
 
 	/* --- Light mode --- */
