@@ -6,18 +6,14 @@
 
 <style>
 	.ambient {
-		position: fixed;
-		inset: 0;
-		z-index: 1;
-		pointer-events: none;
-		overflow: hidden;
+		display: none;
 	}
 
 	.orb {
 		position: absolute;
 		border-radius: 50%;
 		filter: blur(120px);
-		opacity: 0.035;
+		opacity: 0;
 		animation: drift 25s ease-in-out infinite alternate;
 	}
 

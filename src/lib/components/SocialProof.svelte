@@ -50,26 +50,23 @@
 	.social-proof {
 		position: relative;
 		z-index: 3;
-		padding: 2.5rem 2rem;
-		background: rgba(196, 114, 78, 0.03);
-		border-top: 1px solid rgba(196, 114, 78, 0.06);
-		border-bottom: 1px solid rgba(196, 114, 78, 0.06);
+		padding: 1.5rem 2rem;
+		background: #1a1712;
+		border-top: 2px solid rgba(240, 234, 214, 0.2);
+		border-bottom: 2px solid rgba(240, 234, 214, 0.2);
 		opacity: 0;
-		transform: translateY(12px) scale(0.98);
-		filter: blur(4px);
-		transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+		transform: translateY(12px);
+		transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 	}
 
 	.social-proof.visible {
 		opacity: 1;
-		transform: translateY(0) scale(1);
-		filter: blur(0);
+		transform: translateY(0);
 	}
 
 	.social-proof.above {
 		opacity: 0;
-		transform: translateY(-12px) scale(0.98);
-		filter: blur(4px);
+		transform: translateY(-12px);
 	}
 
 	.proof-inner {
@@ -88,15 +85,15 @@
 		gap: 0.5rem;
 		font-family: 'Inter', sans-serif;
 		font-size: 0.8rem;
-		font-weight: 400;
-		color: rgba(232, 224, 212, 0.5);
+		font-weight: 700;
+		color: #F0EAD6;
 		letter-spacing: 0.02em;
 		white-space: nowrap;
 	}
 
 	.proof-item svg {
-		opacity: 0.6;
-		color: #c4724e;
+		opacity: 1;
+		color: #FF6B35;
 		flex-shrink: 0;
 	}
 
@@ -105,10 +102,9 @@
 	}
 
 	.proof-divider {
-		width: 3px;
-		height: 3px;
-		border-radius: 50%;
-		background: rgba(232, 224, 212, 0.2);
+		width: 2px;
+		height: 14px;
+		background: rgba(240, 234, 214, 0.75);
 		flex-shrink: 0;
 	}
 
@@ -124,14 +120,4 @@
 		}
 	}
 
-	/* --- Light mode --- */
-	@media (prefers-color-scheme: light) {
-		.social-proof {
-			background: rgba(176, 90, 56, 0.03);
-			border-color: rgba(176, 90, 56, 0.08);
-		}
-		.proof-item { color: rgba(44, 36, 24, 0.6); }
-		.proof-item svg { color: #993d1c; }
-		.proof-divider { background: rgba(44, 36, 24, 0.2); }
-	}
 </style>

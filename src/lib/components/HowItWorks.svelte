@@ -71,17 +71,17 @@
 		z-index: 3;
 		max-width: 900px;
 		margin: 0 auto;
-		padding: 8rem 2rem;
+		padding: 6rem 2rem;
 	}
 
 	.section-title {
-		font-family: 'DM Serif Display', Georgia, serif;
+		font-family: 'Space Grotesk', sans-serif;
 		font-size: clamp(1.6rem, 4vw, 2.2rem);
-		font-weight: 400;
+		font-weight: 900;
 		text-align: center;
-		color: rgba(232, 224, 212, 0.9);
+		color: #F0EAD6;
 		margin: 0 0 0.6rem;
-		letter-spacing: 0.02em;
+		letter-spacing: -0.01em;
 		clip-path: inset(0 100% 0 0);
 		transition: clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 	}
@@ -142,31 +142,32 @@
 	}
 
 	.step-number {
-		font-family: 'DM Serif Display', Georgia, serif;
-		font-size: 2rem;
-		color: #c4724e;
+		font-family: 'Space Grotesk', sans-serif;
+		font-size: 3rem;
+		font-weight: 900;
+		color: #FFD600;
 		margin-bottom: 1rem;
 		line-height: 1;
 	}
 
 	.step-content {
-		background: rgba(232, 224, 212, 0.02);
-		border: 1px solid rgba(232, 224, 212, 0.06);
-		border-radius: 12px;
+		background: transparent;
+		border: 2px solid rgba(240, 234, 214, 0.25);
+		border-radius: 0;
 		padding: 1.5rem 1.2rem;
-		transition: all 0.35s ease;
+		transition: border-color 0.3s ease, box-shadow 0.3s ease;
 	}
 
 	.step-content:hover {
-		background: rgba(196, 114, 78, 0.04);
-		border-color: rgba(196, 114, 78, 0.12);
+		border-color: #FF6B35;
+		box-shadow: 4px 4px 0 #FF6B35;
 	}
 
 	.step-name {
-		font-family: 'DM Serif Display', Georgia, serif;
+		font-family: 'Space Grotesk', sans-serif;
 		font-size: 1.05rem;
-		font-weight: 400;
-		color: rgba(232, 224, 212, 0.9);
+		font-weight: 700;
+		color: #F0EAD6;
 		margin: 0 0 0.6rem;
 	}
 
@@ -179,9 +180,9 @@
 	}
 
 	.step-code {
-		background: rgba(26, 23, 18, 0.8);
-		border: 1px solid rgba(232, 224, 212, 0.08);
-		border-radius: 8px;
+		background: #0d0d09;
+		border: 2px solid #FF6B35;
+		border-radius: 0;
 		padding: 0.8rem 1rem;
 		margin-top: 0.5rem;
 	}
@@ -189,7 +190,7 @@
 	.step-code code {
 		font-family: 'JetBrains Mono', 'Fira Code', monospace;
 		font-size: 0.7rem;
-		color: #c4724e;
+		color: #FF6B35;
 		word-break: break-all;
 	}
 
@@ -203,7 +204,7 @@
 	.step-connector {
 		display: flex;
 		align-items: center;
-		color: rgba(196, 114, 78, 0.25);
+		color: #FF6B35;
 		padding-top: 3.5rem;
 		flex-shrink: 0;
 	}
@@ -238,27 +239,4 @@
 		.section-sub, .step, .step-connector { opacity: 1; transform: none; filter: none; transition: none; }
 	}
 
-	/* --- Light mode --- */
-	@media (prefers-color-scheme: light) {
-		.section-title { color: #2c2418; }
-		.section-sub { color: rgba(44, 36, 24, 0.65); }
-		.step-number { color: #993d1c; }
-		.step-content {
-			background: rgba(44, 36, 24, 0.02);
-			border-color: rgba(44, 36, 24, 0.08);
-		}
-		.step-content:hover {
-			background: rgba(176, 90, 56, 0.04);
-			border-color: rgba(176, 90, 56, 0.12);
-		}
-		.step-name { color: #2c2418; }
-		.step-desc { color: rgba(44, 36, 24, 0.65); }
-		.step-code {
-			background: rgba(44, 36, 24, 0.04);
-			border-color: rgba(44, 36, 24, 0.1);
-		}
-		.step-code code { color: #993d1c; }
-		.step-visual { color: rgba(176, 90, 56, 0.4); }
-		.step-connector { color: rgba(176, 90, 56, 0.3); }
-	}
 </style>

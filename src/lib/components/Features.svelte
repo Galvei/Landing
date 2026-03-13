@@ -90,18 +90,18 @@
 	.features-section {
 		position: relative;
 		z-index: 3;
-		max-width: 900px;
+		max-width: 1000px;
 		margin: 0 auto;
-		padding: 8rem 2rem;
+		padding: 6rem 2rem;
 	}
 
 	.section-title {
-		font-family: 'DM Serif Display', Georgia, serif;
+		font-family: 'Space Grotesk', sans-serif;
 		font-size: clamp(1.6rem, 4vw, 2.2rem);
-		font-weight: 400;
-		letter-spacing: 0.02em;
+		font-weight: 900;
+		letter-spacing: -0.01em;
 		text-align: center;
-		color: rgba(232, 224, 212, 0.9);
+		color: #F0EAD6;
 		margin: 0 0 0.6rem;
 		clip-path: inset(0 100% 0 0);
 		transition: clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1);
@@ -115,72 +115,70 @@
 		font-family: 'Inter', sans-serif;
 		text-align: center;
 		font-size: 0.85rem;
-		color: rgba(232, 224, 212, 0.35);
+		color: rgba(240, 234, 214, 0.5);
 		letter-spacing: 0.03em;
 		margin: 0 0 3.5rem;
 		opacity: 0;
 		transform: translateY(8px);
-		filter: blur(4px);
-		transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s, filter 0.5s ease 0.15s;
+		transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s;
 	}
 
 	.visible .section-sub {
 		opacity: 1;
 		transform: translateY(0);
-		filter: blur(0);
 	}
 
 	.features-grid {
 		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		gap: 1.2rem;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1px;
+		border: 2px solid rgba(240, 234, 214, 0.2);
 	}
 
-	@media (max-width: 560px) {
+	@media (max-width: 700px) {
+		.features-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (max-width: 420px) {
 		.features-grid { grid-template-columns: 1fr; }
 	}
 
 	.feature-card {
-		background: rgba(232, 224, 212, 0.02);
-		border: 1px solid rgba(232, 224, 212, 0.06);
-		border-radius: 12px;
+		background: #111008;
+		border: none;
+		border-right: 1px solid rgba(240, 234, 214, 0.15);
+		border-bottom: 1px solid rgba(240, 234, 214, 0.15);
 		padding: 2rem 1.5rem;
 		opacity: 0;
-		transform: translateY(24px) scale(0.92);
-		filter: blur(6px);
-		transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-			filter 0.6s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+		transform: translateY(20px);
+		transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+			background 0.25s ease, box-shadow 0.25s ease;
 	}
 
 	.visible .feature-card {
 		opacity: 1;
-		transform: translateY(0) scale(1);
-		filter: blur(0);
+		transform: translateY(0);
 	}
 
 	.feature-card:hover,
 	.visible .feature-card:hover {
-		background: rgba(196, 114, 78, 0.04);
-		border-color: rgba(196, 114, 78, 0.15);
-		transform: translateY(-2px) scale(1);
-		box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-		filter: blur(0);
+		background: rgba(255, 107, 53, 0.06);
+		box-shadow: inset 0 0 0 2px #FF6B35;
 	}
 
 	.feature-icon {
-		color: #c4724e;
+		color: #FF6B35;
 		margin-bottom: 1rem;
-		opacity: 0.7;
-		transition: opacity 0.3s ease;
+		opacity: 1;
 	}
 
-	.feature-card:hover .feature-icon { opacity: 1; }
-
 	.feature-name {
-		font-family: 'DM Serif Display', Georgia, serif;
+		font-family: 'Space Grotesk', sans-serif;
 		font-size: 1.1rem;
-		font-weight: 400;
-		color: rgba(232, 224, 212, 0.9);
+		font-weight: 700;
+		color: #F0EAD6;
 		margin: 0 0 0.5rem;
 	}
 
@@ -193,23 +191,11 @@
 	}
 
 	.above .section-title { clip-path: inset(0 0 0 100%); }
-	.above .section-sub { opacity: 0; transform: translateY(-8px); filter: blur(4px); }
-	.above .feature-card { opacity: 0; transform: translateY(-24px) scale(0.92); filter: blur(6px); }
+	.above .section-sub { opacity: 0; transform: translateY(-8px); }
+	.above .feature-card { opacity: 0; transform: translateY(-24px) scale(0.92); }
 
 	@media (prefers-reduced-motion: reduce) {
 		.section-title { clip-path: none; transition: none; }
-		.section-sub, .feature-card { opacity: 1; transform: none; filter: none; transition: background 0.3s ease, border-color 0.3s ease; }
-	}
-
-	/* --- Light mode --- */
-	@media (prefers-color-scheme: light) {
-		.section-title { color: #2c2418; }
-		.section-sub { color: rgba(44, 36, 24, 0.65); }
-
-		.feature-card { background: rgba(44, 36, 24, 0.03); border-color: rgba(44, 36, 24, 0.1); }
-		.feature-card:hover { background: rgba(176, 90, 56, 0.05); border-color: rgba(176, 90, 56, 0.18); }
-		.feature-icon { color: #993d1c; }
-		.feature-name { color: #2c2418; }
-		.feature-desc { color: rgba(44, 36, 24, 0.7); }
+		.section-sub, .feature-card { opacity: 1; transform: none; transition: border-color 0.3s ease; }
 	}
 </style>

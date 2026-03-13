@@ -77,18 +77,18 @@
 		z-index: 3;
 		max-width: 900px;
 		margin: 0 auto;
-		padding: 8rem 2rem;
+		padding: 6rem 2rem;
 	}
 
 	.section-title {
-		font-family: 'DM Serif Display', Georgia, serif;
+		font-family: 'Space Grotesk', sans-serif;
 		font-size: clamp(1.6rem, 4vw, 2.2rem);
-		font-weight: 400;
+		font-weight: 900;
 		text-align: center;
-		color: rgba(232, 224, 212, 0.9);
+		color: #F0EAD6;
 		margin: 0 0 3.5rem;
 		line-height: 1.3;
-		letter-spacing: 0.02em;
+		letter-spacing: -0.01em;
 		clip-path: inset(0 100% 0 0);
 		transition: clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 	}
@@ -133,7 +133,8 @@
 	}
 
 	.ps-label--solution {
-		color: #c4724e;
+		color: #FFD600;
+		font-weight: 900;
 	}
 
 	.ps-divider {
@@ -144,7 +145,7 @@
 	}
 
 	.ps-arrow {
-		color: rgba(196, 114, 78, 0.3);
+		color: #FF6B35;
 	}
 
 	.ps-card {
@@ -152,9 +153,9 @@
 		align-items: flex-start;
 		gap: 0.8rem;
 		padding: 1rem 1.2rem;
-		border-radius: 12px;
-		border: 1px solid transparent;
-		transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease, background 0.3s ease, border-color 0.3s ease;
+		border-radius: 0;
+		border: 2px solid transparent;
+		transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
 	}
 
 	.visible .ps-card {
@@ -184,24 +185,22 @@
 	.above .section-title { clip-path: inset(0 0 0 100%); }
 
 	.ps-card--problem {
-		background: rgba(232, 224, 212, 0.02);
-		border-color: rgba(232, 224, 212, 0.04);
+		background: transparent;
+		border-color: rgba(240, 234, 214, 0.3);
 	}
 
 	.ps-card--problem:hover {
-		background: rgba(232, 224, 212, 0.04);
-		border-color: rgba(232, 224, 212, 0.08);
+		box-shadow: 4px 4px 0 #FF6B35;
+		border-color: #FF6B35;
 	}
 
 	.ps-card--solution {
-		background: rgba(196, 114, 78, 0.04);
-		border-color: rgba(196, 114, 78, 0.08);
+		background: rgba(255, 107, 53, 0.08);
+		border-color: #FF6B35;
 	}
 
 	.ps-card--solution:hover {
-		background: rgba(196, 114, 78, 0.08);
-		border-color: rgba(196, 114, 78, 0.15);
-		transform: translateX(4px);
+		box-shadow: 4px 4px 0 #FF6B35;
 	}
 
 	.ps-card-icon {
@@ -214,14 +213,14 @@
 	}
 
 	.ps-card-icon--solution {
-		color: #c4724e;
+		color: #FF6B35;
 	}
 
 	.ps-card-title {
 		font-family: 'Inter', sans-serif;
 		font-size: 0.88rem;
-		font-weight: 500;
-		color: rgba(232, 224, 212, 0.85);
+		font-weight: 700;
+		color: #F0EAD6;
 		margin: 0 0 0.25rem;
 	}
 
@@ -253,34 +252,4 @@
 		.ps-card { opacity: 1; transform: none; filter: none; transition: background 0.3s ease, border-color 0.3s ease; }
 	}
 
-	/* --- Light mode --- */
-	@media (prefers-color-scheme: light) {
-		.section-title { color: #2c2418; }
-		.ps-label--problem { color: rgba(44, 36, 24, 0.5); }
-		.ps-label--solution { color: #993d1c; }
-		.ps-arrow { color: rgba(176, 90, 56, 0.35); }
-
-		.ps-card--problem {
-			background: rgba(44, 36, 24, 0.02);
-			border-color: rgba(44, 36, 24, 0.06);
-		}
-		.ps-card--problem:hover {
-			background: rgba(44, 36, 24, 0.04);
-			border-color: rgba(44, 36, 24, 0.1);
-		}
-
-		.ps-card--solution {
-			background: rgba(176, 90, 56, 0.04);
-			border-color: rgba(176, 90, 56, 0.1);
-		}
-		.ps-card--solution:hover {
-			background: rgba(176, 90, 56, 0.08);
-			border-color: rgba(176, 90, 56, 0.18);
-		}
-
-		.ps-card-icon--problem { color: rgba(44, 36, 24, 0.35); }
-		.ps-card-icon--solution { color: #993d1c; }
-		.ps-card-title { color: #2c2418; }
-		.ps-card-desc { color: rgba(44, 36, 24, 0.65); }
-	}
 </style>

@@ -9,8 +9,11 @@ export function scrollReveal(node: HTMLElement, options: RevealOptions) {
 		([entry]) => {
 			if (entry.isIntersecting) {
 				onchange(true, false);
+			} else if (entry.boundingClientRect.top < 0) {
+				// Element is above viewport — keep it visible, no reverse animation
+				onchange(true, false);
 			} else {
-				onchange(false, entry.boundingClientRect.top < 0);
+				onchange(false, false);
 			}
 		},
 		{ threshold }

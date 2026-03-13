@@ -235,16 +235,16 @@
 		z-index: 3;
 		max-width: 620px;
 		margin: 0 auto;
-		padding: 8rem 2rem;
+		padding: 6rem 2rem;
 	}
 
 	.section-title {
-		font-family: 'DM Serif Display', Georgia, serif;
+		font-family: 'Space Grotesk', sans-serif;
 		font-size: clamp(1.6rem, 4vw, 2.2rem);
-		font-weight: 400;
-		letter-spacing: 0.02em;
+		font-weight: 900;
+		letter-spacing: -0.01em;
 		text-align: center;
-		color: rgba(232, 224, 212, 0.9);
+		color: #F0EAD6;
 		margin: 0 0 0.6rem;
 		clip-path: inset(0 100% 0 0);
 		transition: clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1);
@@ -287,9 +287,8 @@
 		left: 7px;
 		top: 8px;
 		bottom: 8px;
-		width: 5px;
-		border-radius: 5px;
-		background: linear-gradient(180deg, #c4724e 0%, rgba(196, 114, 78, 0.3) 25%, rgba(196, 114, 78, 0.1) 60%, rgba(196, 114, 78, 0.04) 100%);
+		width: 4px;
+		background: linear-gradient(180deg, #FF6B35 0%, rgba(255, 107, 53, 0.4) 30%, rgba(255, 107, 53, 0.1) 70%, rgba(255, 107, 53, 0.02) 100%);
 		transform-origin: top;
 		transform: scaleY(var(--timeline-progress, 0));
 	}
@@ -327,19 +326,18 @@
 		position: absolute;
 		left: -32px;
 		top: 8px;
-		width: 15px;
-		height: 15px;
-		border-radius: 50%;
-		background: #1a1712;
-		border: 2px solid rgba(232, 224, 212, 0.1);
+		width: 14px;
+		height: 14px;
+		border-radius: 0;
+		background: #111008;
+		border: 2px solid rgba(240, 234, 214, 0.25);
 		transition: all 0.3s ease;
 		z-index: 1;
 	}
 
-.phase--active .phase-dot {
-		border-color: #c4724e;
-		background: #c4724e;
-		box-shadow: 0 0 12px rgba(196, 114, 78, 0.4);
+	.phase--active .phase-dot {
+		border-color: #FF6B35;
+		background: #FF6B35;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -347,10 +345,10 @@
 
 	.dot-ping {
 		position: absolute;
-		width: 15px;
-		height: 15px;
-		border-radius: 50%;
-		background: #c4724e;
+		width: 14px;
+		height: 14px;
+		border-radius: 0;
+		background: #FF6B35;
 		animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
 	}
 
@@ -372,9 +370,9 @@
 	}
 
 	.phase-badge--current {
-		background: rgba(196, 114, 78, 0.15);
-		color: #c4724e;
-		border: 1px solid rgba(196, 114, 78, 0.3);
+		background: #FF6B35;
+		color: #111008;
+		border: none;
 	}
 
 .phase-progress {
@@ -400,28 +398,25 @@
 	}
 
 	.phase:hover .phase-dot {
-		border-color: #c4724e;
-		box-shadow: 0 0 8px rgba(196, 114, 78, 0.2);
+		border-color: #FF6B35;
 	}
 
 	.phase-card {
-		background: rgba(232, 224, 212, 0.02);
-		border: 1px solid rgba(232, 224, 212, 0.06);
-		border-radius: 12px;
+		background: transparent;
+		border: 2px solid rgba(240, 234, 214, 0.2);
+		border-radius: 0;
 		padding: 1.5rem;
-		transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+		transition: border-color 0.3s ease, box-shadow 0.3s ease;
 	}
 
 	.phase:hover .phase-card {
-		background: rgba(196, 114, 78, 0.03);
-		border-color: rgba(196, 114, 78, 0.15);
-		transform: translateX(6px);
-		box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+		border-color: #FF6B35;
+		box-shadow: 4px 4px 0 #FF6B35;
 	}
 
 	.phase--active .phase-card {
-		border-color: rgba(196, 114, 78, 0.3);
-		background: rgba(196, 114, 78, 0.06);
+		border-color: #FF6B35;
+		box-shadow: 4px 4px 0 #FFD600;
 	}
 
 	.phase-top {
@@ -447,10 +442,10 @@
 	}
 
 	.phase-name {
-		font-family: 'DM Serif Display', Georgia, serif;
+		font-family: 'Space Grotesk', sans-serif;
 		font-size: 1.2rem;
-		font-weight: 400;
-		color: rgba(232, 224, 212, 0.9);
+		font-weight: 700;
+		color: #F0EAD6;
 		margin: 0 0 0.5rem;
 	}
 
@@ -474,22 +469,20 @@
 		padding: 0.3rem 0.65rem;
 		font-size: 0.62rem;
 		letter-spacing: 0.04em;
-		border-radius: 6px;
-		background: rgba(232, 224, 212, 0.04);
-		color: rgba(232, 224, 212, 0.55);
-		border: 1px solid rgba(232, 224, 212, 0.06);
+		border-radius: 0;
+		background: transparent;
+		color: rgba(240, 234, 214, 0.55);
+		border: 1px solid rgba(240, 234, 214, 0.3);
 		transition: all 0.25s ease;
 	}
 
 	.phase:hover .tag {
-		border-color: rgba(196, 114, 78, 0.15);
-		color: rgba(232, 224, 212, 0.7);
+		color: rgba(240, 234, 214, 0.8);
 	}
 
 	.phase--active .tag {
-		background: rgba(196, 114, 78, 0.08);
-		border-color: rgba(196, 114, 78, 0.15);
-		color: rgba(232, 224, 212, 0.7);
+		border-color: rgba(255, 107, 53, 0.4);
+		color: rgba(240, 234, 214, 0.8);
 	}
 
 	.above .section-title { clip-path: inset(0 0 0 100%); }
@@ -502,37 +495,4 @@
 		.timeline::before { transform: scaleY(1); }
 	}
 
-	/* --- Light mode --- */
-	@media (prefers-color-scheme: light) {
-		.section-title { color: #2c2418; }
-		.section-sub { color: rgba(44, 36, 24, 0.65); }
-
-		.timeline::before {
-			background: linear-gradient(180deg, #b05a38 0%, rgba(176, 90, 56, 0.3) 25%, rgba(176, 90, 56, 0.1) 60%, rgba(176, 90, 56, 0.04) 100%);
-		}
-
-		.phase-dot { background: #f5f0e8; border-color: rgba(44, 36, 24, 0.15); }
-.phase--active .phase-dot { background: #b05a38; border-color: #b05a38; box-shadow: 0 0 10px rgba(176, 90, 56, 0.35); }
-		.dot-ping { background: #b05a38; }
-
-		.phase-badge--current { background: rgba(176, 90, 56, 0.1); color: #8a3a1c; border-color: rgba(176, 90, 56, 0.25); }
-
-		.phase-progress { background: rgba(44, 36, 24, 0.08); }
-		.phase-progress-bar { background: linear-gradient(90deg, #b05a38, #c4724e); }
-
-		.phase:hover .phase-dot { border-color: #b05a38; box-shadow: 0 0 6px rgba(176, 90, 56, 0.2); }
-
-		.phase-card { background: rgba(44, 36, 24, 0.02); border-color: rgba(44, 36, 24, 0.08); }
-		.phase:hover .phase-card { background: rgba(176, 90, 56, 0.04); border-color: rgba(176, 90, 56, 0.15); }
-		.phase--active .phase-card { background: rgba(176, 90, 56, 0.05); border-color: rgba(176, 90, 56, 0.2); }
-
-		.phase-number { color: #993d1c; }
-		.phase-time { color: rgba(44, 36, 24, 0.55); }
-		.phase-name { color: #2c2418; }
-		.phase-desc { color: rgba(44, 36, 24, 0.7); }
-
-		.tag { background: rgba(44, 36, 24, 0.04); border-color: rgba(44, 36, 24, 0.1); color: rgba(44, 36, 24, 0.7); }
-		.phase:hover .tag { border-color: rgba(176, 90, 56, 0.2); color: rgba(44, 36, 24, 0.8); }
-		.phase--active .tag { background: rgba(176, 90, 56, 0.08); border-color: rgba(176, 90, 56, 0.15); color: rgba(44, 36, 24, 0.8); }
-	}
 </style>

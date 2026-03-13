@@ -54,17 +54,13 @@ import { onMount } from 'svelte';
 		right: 0;
 		z-index: 100;
 		padding: 0 2rem;
-		background: rgba(26, 23, 18, 0.35);
-		backdrop-filter: blur(6px);
-		-webkit-backdrop-filter: blur(6px);
-		transition: all 0.3s ease;
+		background: #111008;
+		border-bottom: 2px solid rgba(240, 234, 214, 0.75);
+		transition: border-color 0.3s ease;
 	}
 
 	.navbar.scrolled {
-		background: rgba(26, 23, 18, 0.85);
-		backdrop-filter: blur(12px);
-		-webkit-backdrop-filter: blur(12px);
-		border-bottom: 1px solid rgba(196, 114, 78, 0.06);
+		border-bottom-color: rgba(240, 234, 214, 0.75);
 	}
 
 	.navbar-inner {
@@ -77,11 +73,12 @@ import { onMount } from 'svelte';
 	}
 
 	.navbar-logo {
-		font-family: 'DM Serif Display', Georgia, serif;
-		font-size: 1.3rem;
-		color: #c4724e;
+		font-family: 'Space Grotesk', sans-serif;
+		font-size: 1.5rem;
+		font-weight: 900;
+		color: #F0EAD6;
 		text-decoration: none;
-		letter-spacing: 0.02em;
+		letter-spacing: 0.01em;
 		flex-shrink: 0;
 	}
 
@@ -94,15 +91,16 @@ import { onMount } from 'svelte';
 	.nav-link {
 		font-family: 'Inter', sans-serif;
 		font-size: 0.8rem;
-		font-weight: 400;
-		color: rgba(232, 224, 212, 0.55);
+		font-weight: 500;
+		color: rgba(240, 234, 214, 0.55);
 		text-decoration: none;
 		letter-spacing: 0.03em;
 		transition: color 0.25s ease;
 	}
 
 	.nav-link:hover {
-		color: rgba(232, 224, 212, 0.9);
+		color: #F0EAD6;
+		text-decoration: underline;
 	}
 
 	.navbar-right {
@@ -112,23 +110,25 @@ import { onMount } from 'svelte';
 		flex-shrink: 0;
 	}
 
-.nav-cta {
+	.nav-cta {
 		font-family: 'Inter', sans-serif;
 		font-size: 0.75rem;
-		font-weight: 500;
+		font-weight: 700;
 		letter-spacing: 0.04em;
 		text-transform: uppercase;
 		text-decoration: none;
 		padding: 0.5rem 1.2rem;
-		background: #c4724e;
-		color: #1a1712;
-		border-radius: 6px;
-		transition: all 0.25s ease;
+		background: #FF6B35;
+		color: #111008;
+		border-radius: 0;
+		border: 2px solid #FF6B35;
+		box-shadow: 3px 3px 0 #FFD600;
+		transition: box-shadow 0.2s ease, transform 0.2s ease;
 	}
 
 	.nav-cta:hover {
-		background: #d4845e;
-		box-shadow: 0 0 12px rgba(196, 114, 78, 0.25), 0 0 30px rgba(196, 114, 78, 0.08);
+		box-shadow: 1px 1px 0 #FFD600;
+		transform: translate(2px, 2px);
 	}
 
 	.hamburger {
@@ -144,20 +144,19 @@ import { onMount } from 'svelte';
 	.hamburger span {
 		display: block;
 		width: 22px;
-		height: 1.5px;
-		background: rgba(232, 224, 212, 0.6);
-		border-radius: 1px;
+		height: 3px;
+		background: rgba(240, 234, 214, 0.8);
 		transition: all 0.3s ease;
 	}
 
 	.hamburger.open span:nth-child(1) {
-		transform: rotate(45deg) translate(4.5px, 4.5px);
+		transform: rotate(45deg) translate(5.5px, 5.5px);
 	}
 	.hamburger.open span:nth-child(2) {
 		opacity: 0;
 	}
 	.hamburger.open span:nth-child(3) {
-		transform: rotate(-45deg) translate(4.5px, -4.5px);
+		transform: rotate(-45deg) translate(5.5px, -5.5px);
 	}
 
 	@media (max-width: 768px) {
@@ -167,12 +166,10 @@ import { onMount } from 'svelte';
 			left: 0;
 			right: 0;
 			flex-direction: column;
-			background: rgba(26, 23, 18, 0.95);
-			backdrop-filter: blur(12px);
-			-webkit-backdrop-filter: blur(12px);
+			background: #111008;
 			padding: 1.5rem 2rem;
 			gap: 1.2rem;
-			border-bottom: 1px solid rgba(196, 114, 78, 0.06);
+			border-bottom: 2px solid rgba(240, 234, 214, 0.75);
 			transform: translateY(-100%);
 			opacity: 0;
 			pointer-events: none;
@@ -195,31 +192,6 @@ import { onMount } from 'svelte';
 
 		.nav-cta {
 			display: none;
-		}
-	}
-
-	/* --- Light mode --- */
-	@media (prefers-color-scheme: light) {
-		.navbar {
-			background: rgba(245, 240, 232, 0.35);
-		}
-		.navbar.scrolled {
-			background: rgba(245, 240, 232, 0.85);
-			border-bottom-color: rgba(176, 90, 56, 0.08);
-		}
-
-		.navbar-logo { color: #993d1c; }
-		.nav-link { color: rgba(44, 36, 24, 0.55); }
-		.nav-link:hover { color: #2c2418; }
-.nav-cta { background: #993d1c; color: #fff; }
-		.nav-cta:hover { background: #b05a38; }
-		.hamburger span { background: rgba(44, 36, 24, 0.6); }
-
-		@media (max-width: 768px) {
-			.navbar-center {
-				background: rgba(245, 240, 232, 0.95);
-				border-bottom-color: rgba(176, 90, 56, 0.08);
-			}
 		}
 	}
 </style>

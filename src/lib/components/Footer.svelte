@@ -48,8 +48,9 @@
 	.footer {
 		position: relative;
 		z-index: 3;
-		border-top: 1px solid rgba(232, 224, 212, 0.06);
+		border-top: 2px solid rgba(240, 234, 214, 0.2);
 		padding: 3.5rem 2rem 2rem;
+		background: #1a1712;
 	}
 
 	.footer-inner {
@@ -75,11 +76,11 @@
 	}
 
 	.footer-logo {
-		font-family: 'DM Serif Display', Georgia, serif;
+		font-family: 'Space Grotesk', sans-serif;
 		font-size: 1.2rem;
-		font-weight: 400;
-		color: rgba(232, 224, 212, 0.7);
-		letter-spacing: 0.02em;
+		font-weight: 900;
+		color: #F0EAD6;
+		letter-spacing: 0.01em;
 	}
 
 	.footer-tagline {
@@ -108,11 +109,11 @@
 		transition: color 0.25s ease;
 	}
 
-	.footer-link:hover { color: #c4724e; }
+	.footer-link:hover { color: #FF6B35; font-weight: 700; }
 
 	.footer-bottom {
 		padding-top: 1.5rem;
-		border-top: 1px solid rgba(232, 224, 212, 0.06);
+		border-top: 2px solid rgba(240, 234, 214, 0.15);
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -170,18 +171,4 @@
 		}
 	}
 
-	/* --- Light mode --- */
-	@media (prefers-color-scheme: light) {
-		.footer { border-top-color: rgba(44, 36, 24, 0.1); }
-		.footer-logo { color: #2c2418; }
-		.footer-tagline { color: rgba(44, 36, 24, 0.55); }
-		.footer-col-title { color: rgba(44, 36, 24, 0.6); }
-		.footer-link { color: rgba(44, 36, 24, 0.5); }
-		.footer-link:hover { color: #993d1c; }
-		.footer-bottom { border-top-color: rgba(44, 36, 24, 0.1); }
-		.footer-copy { color: rgba(44, 36, 24, 0.55); }
-		.footer-author { color: #993d1c; }
-		.footer-author:hover { color: #7a3015; }
-		.footer-year { color: rgba(44, 36, 24, 0.4); }
-	}
 </style>

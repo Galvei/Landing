@@ -30,30 +30,22 @@
 		width: 100%;
 		margin: 0 auto;
 		opacity: 0;
-		transform: translateY(24px) scale(0.9);
-		filter: blur(8px);
-		transition: opacity 1s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
+		transform: translateY(24px);
+		transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 	}
 
 	.visible .final-inner {
 		opacity: 1;
-		transform: translateY(0) scale(1);
-		filter: blur(0);
+		transform: translateY(0);
 	}
 
 	.final-title {
-		font-family: 'DM Serif Display', Georgia, serif;
-		font-size: clamp(2rem, 5vw, 3rem);
-		font-weight: 400;
-		color: #c4724e;
+		font-family: 'Space Grotesk', sans-serif;
+		font-size: clamp(2.5rem, 6vw, 4rem);
+		font-weight: 900;
+		color: #F0EAD6;
 		margin: 0 0 0.6rem;
-		letter-spacing: 0.01em;
-		clip-path: inset(0 100% 0 0);
-		transition: clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
-	}
-
-	.visible .final-title {
-		clip-path: inset(0 0 0 0);
+		letter-spacing: -0.02em;
 	}
 
 	.final-sub {
@@ -72,16 +64,17 @@
 		letter-spacing: 0.06em;
 		text-transform: uppercase;
 		text-decoration: none;
-		background: #c4724e;
-		color: #1a1712;
-		border-radius: 8px;
-		transition: all 0.3s ease;
+		background: #FF6B35;
+		color: #111008;
+		border-radius: 0;
+		border: 2px solid #FF6B35;
+		box-shadow: 5px 5px 0 #FFD600;
+		transition: box-shadow 0.2s ease, transform 0.2s ease;
 	}
 
 	.final-btn:hover {
-		background: #d4845e;
-		box-shadow: 0 0 20px rgba(196, 114, 78, 0.3), 0 0 60px rgba(196, 114, 78, 0.12);
-		transform: translateY(-2px);
+		box-shadow: 2px 2px 0 #FFD600;
+		transform: translate(3px, 3px);
 	}
 
 	.final-alt {
@@ -99,20 +92,8 @@
 	}
 
 	.final-link:hover {
-		color: #c4724e;
+		color: #FF6B35;
 	}
 
-	.above .final-inner { opacity: 0; transform: translateY(-24px) scale(0.9); filter: blur(8px); }
-	.above .final-title { clip-path: inset(0 0 0 100%); }
-
-	/* --- Light mode --- */
-	@media (prefers-color-scheme: light) {
-		.final-title { color: #993d1c; }
-		.final-sub { color: rgba(44, 36, 24, 0.6); }
-		.final-btn { background: #993d1c; color: #fff; }
-		.final-btn:hover { background: #b05a38; }
-		.final-alt { color: rgba(44, 36, 24, 0.5); }
-		.final-link { color: rgba(44, 36, 24, 0.65); }
-		.final-link:hover { color: #993d1c; }
-	}
+	.above .final-inner { opacity: 0; transform: translateY(-24px); }
 </style>
