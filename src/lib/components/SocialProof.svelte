@@ -1,123 +1,159 @@
-<script lang="ts">
-	import { scrollReveal } from '$lib/utils/scrollReveal';
-	let visible = $state(false);
-	let above = $state(false);
-</script>
-
-<section class="social-proof" id="social-proof" use:scrollReveal={{ threshold: 0.3, onchange: (v, a) => { visible = v; above = a; } }} class:visible class:above>
-	<div class="proof-inner">
-		<span class="proof-item">
-			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16">
-				<path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
-			</svg>
-			Built in the open
-		</span>
-		<span class="proof-divider"></span>
-		<span class="proof-item">
-			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16">
-				<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-			</svg>
-			Powered by Docker
-		</span>
-		<span class="proof-divider"></span>
-		<span class="proof-item">
-			<svg class="eu-icon" viewBox="0 0 810 540" width="16" height="11">
-				<rect width="810" height="540" fill="#003399"/>
-				<g fill="#FFCC00" transform="translate(405,270)">
-					{#each Array(12) as _, i}
-						<g transform="rotate({i * 30})">
-							<polygon points="0,-160 5.9,-147.6 18.5,-147.6 8.3,-139.1 12.4,-126.8 0,-134 -12.4,-126.8 -8.3,-139.1 -18.5,-147.6 -5.9,-147.6" />
-						</g>
-					{/each}
-				</g>
-			</svg>
-			Made in Europe
-		</span>
-		<span class="proof-divider"></span>
-		<span class="proof-item">
-			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16">
-				<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-				<circle cx="9" cy="7" r="4"/>
-				<path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-				<path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-			</svg>
-			Growing community on Discord
-		</span>
+<!-- Trust Bar -->
+<div class="trust-bar">
+	<div class="trust-item">
+		<span class="trust-icon">⚡</span>
+		Powered by Docker
 	</div>
-</section>
+	<div class="trust-item">
+		<span class="trust-icon">🔒</span>
+		Secure by Default
+	</div>
+	<div class="trust-item">
+		<span class="trust-icon">🇪🇺</span>
+		Made in Europe
+	</div>
+	<div class="trust-item">
+		<span class="trust-icon">♾️</span>
+		Free Personal Use
+	</div>
+</div>
+
+<!-- Marquee -->
+<div class="marquee-wrap" aria-hidden="true">
+	<div class="marquee-track">
+		<span>Powered by Docker</span>
+		<span>Secure by Default</span>
+		<span>Made in Europe</span>
+		<span>One curl to deploy</span>
+		<span>No vendor lock-in</span>
+		<span>Free Community Edition</span>
+		<span>Community driven</span>
+		<span>NIS2 ready</span>
+		<span>Powered by Docker</span>
+		<span>Secure by Default</span>
+		<span>Made in Europe</span>
+		<span>One curl to deploy</span>
+		<span>No vendor lock-in</span>
+		<span>Free Community Edition</span>
+		<span>Community driven</span>
+		<span>NIS2 ready</span>
+	</div>
+</div>
 
 <style>
-	.social-proof {
-		position: relative;
-		z-index: 3;
-		padding: 1.5rem 2rem;
-		background: #1a1712;
-		border-top: 2px solid rgba(240, 234, 214, 0.2);
-		border-bottom: 2px solid rgba(240, 234, 214, 0.2);
-		opacity: 0;
-		transform: translateY(12px);
-		transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-	}
-
-	.social-proof.visible {
-		opacity: 1;
-		transform: translateY(0);
-	}
-
-	.social-proof.above {
-		opacity: 0;
-		transform: translateY(-12px);
-	}
-
-	.proof-inner {
-		max-width: 900px;
-		margin: 0 auto;
+	/* Trust Bar */
+	.trust-bar {
+		padding: 32px 48px;
+		border-top: 1px solid var(--border);
+		border-bottom: 1px solid var(--border);
 		display: flex;
-		align-items: center;
 		justify-content: center;
-		gap: 1.5rem;
+		gap: 56px;
 		flex-wrap: wrap;
 	}
 
-	.proof-item {
-		display: inline-flex;
+	.trust-item {
+		display: flex;
 		align-items: center;
-		gap: 0.5rem;
-		font-family: 'Inter', sans-serif;
-		font-size: 0.8rem;
-		font-weight: 700;
-		color: #F0EAD6;
-		letter-spacing: 0.02em;
+		gap: 10px;
+		font-size: 14px;
+		font-weight: 600;
+		color: var(--fg-muted);
+	}
+
+	.trust-icon {
+		width: 28px;
+		height: 28px;
+		border-radius: 6px;
+		background: var(--accent);
+		color: #000;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 14px;
+		font-weight: 800;
+	}
+
+	/* Marquee */
+	.marquee-wrap {
+		padding: 24px 0;
+		border-top: 2px solid var(--border);
+		border-bottom: 2px solid var(--border);
+		overflow: hidden;
+		position: relative;
+	}
+
+	.marquee-wrap::before,
+	.marquee-wrap::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		width: 120px;
+		z-index: 2;
+		pointer-events: none;
+	}
+
+	.marquee-wrap::before {
+		left: 0;
+		background: linear-gradient(90deg, var(--bg), transparent);
+	}
+
+	.marquee-wrap::after {
+		right: 0;
+		background: linear-gradient(-90deg, var(--bg), transparent);
+	}
+
+	.marquee-track {
+		display: flex;
+		gap: 48px;
+		animation: marquee 30s linear infinite;
+		width: max-content;
+	}
+
+	.marquee-track:hover {
+		animation-play-state: paused;
+	}
+
+	.marquee-track span {
+		font-size: 14px;
+		font-family: var(--mono);
+		font-weight: 600;
+		color: var(--fg-dim);
 		white-space: nowrap;
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		transition: color 0.2s;
 	}
 
-	.proof-item svg {
-		opacity: 1;
-		color: #FF6B35;
-		flex-shrink: 0;
+	.marquee-track span:hover {
+		color: var(--fg);
 	}
 
-	.eu-icon {
-		border-radius: 2px;
+	.marquee-track span::before {
+		content: '◆';
+		color: var(--accent);
+		font-size: 10px;
 	}
 
-	.proof-divider {
-		width: 2px;
-		height: 14px;
-		background: rgba(240, 234, 214, 0.75);
-		flex-shrink: 0;
+	@keyframes marquee {
+		0% { transform: translateX(0); }
+		100% { transform: translateX(-50%); }
 	}
 
-	@media (max-width: 640px) {
-		.proof-inner {
-			gap: 1rem;
+	@media (max-width: 900px) {
+		.trust-bar {
+			gap: 24px;
+			padding: 24px;
 		}
-		.proof-divider {
-			display: none;
-		}
-		.proof-item {
-			font-size: 0.75rem;
-		}
 	}
 
+	@media (prefers-reduced-motion: reduce) {
+		.marquee-track {
+			animation: none;
+		}
+	}
 </style>

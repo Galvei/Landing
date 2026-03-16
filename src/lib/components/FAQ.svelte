@@ -1,209 +1,174 @@
 <script lang="ts">
-	import { scrollReveal } from '$lib/utils/scrollReveal';
-	let visible = $state(false);
-	let above = $state(false);
 	let openIndex = $state(-1);
+
+	const faqs = [
+		{
+			q: 'What is self-hosting?',
+			a: 'Running apps on your own hardware instead of relying on cloud services. Full control over your data.'
+		},
+		{
+			q: 'What hardware do I need?',
+			a: 'Any Linux machine with 2GB+ RAM. Raspberry Pi, old laptop, or a cheap VPS.'
+		},
+		{
+			q: 'Do I need to know Docker?',
+			a: 'No. Galvei handles everything. If you can use a browser, you can use Galvei.'
+		},
+		{
+			q: 'What apps can I run?',
+			a: 'Anything that runs in Docker — Jellyfin, Nextcloud, Vaultwarden, Immich, Home Assistant, Gitea, Plausible, and hundreds more. If it has a Docker image, Galvei can run it.'
+		},
+		{
+			q: 'How is this different from CasaOS / Umbrel?',
+			a: 'CasaOS and Umbrel are great starters but lack built-in networking, reverse proxy, and security. Galvei bundles containers, SSL, auth, monitoring, file management, and backups into one desktop — no need to bolt on Nginx Proxy Manager, Portainer, and Uptime Kuma separately. Plus, Galvei offers NIS2 compliance features for European businesses.'
+		},
+		{
+			q: 'Is Galvei free?',
+			a: 'Community Edition is free forever for personal use, running 2–3 versions behind. Pro adds priority updates, advanced features, and support with semi-annual or annual plans. Business plans include multi-user, SSO, and compliance features.'
+		},
+		{
+			q: 'When will it be ready?',
+			a: 'Building in the open. Join the waitlist or Discord for early access.'
+		}
+	];
 
 	function toggle(i: number) {
 		openIndex = openIndex === i ? -1 : i;
 	}
-
-	const items = [
-		{
-			q: 'What is self-hosting?',
-			a: 'Running applications on your own hardware instead of paying for cloud services. You own the server, you own the data. Galvei makes this as easy as installing an app on your phone.',
-		},
-		{
-			q: 'What hardware do I need?',
-			a: 'Any Linux machine with at least 2GB of RAM. A Raspberry Pi 4, an old laptop, a cheap VPS. Anything works.',
-		},
-		{
-			q: 'Do I need to know Docker or Linux?',
-			a: 'No. Galvei handles all the technical setup. If you can fill out a form, you can deploy an app.',
-		},
-		{
-			q: 'Is my data safe?',
-			a: 'Your data never leaves your hardware. Galvei runs entirely on your machine. No cloud accounts, no third-party storage, no tracking.',
-		},
-		{
-			q: 'What apps can I run?',
-			a: 'Anything that runs in Docker. Galvei ships with a curated app store (Nextcloud, Jellyfin, Vaultwarden, and more), but you can deploy any Docker image.',
-		},
-		{
-			q: 'How is this different from Portainer / CasaOS / Umbrel?',
-			a: 'Galvei is an all-in-one platform, not just a container manager. It handles DNS, SSL, reverse proxy, monitoring, backups, and app deployment from a single dashboard. No extra tools needed.',
-		},
-		{
-			q: 'Is Galvei free?',
-			a: 'Galvei is source-available under BSL 1.1. Personal use will always be free. Commercial licensing details will come later.',
-		},
-		{
-			q: 'When will Galvei be ready?',
-			a: "We're in active development (Phase 00). Join the waitlist to get notified when early access opens.",
-		},
-	];
-
 </script>
 
-<section class="faq" id="faq" use:scrollReveal={{ threshold: 0.1, onchange: (v, a) => { visible = v; above = a; } }} class:visible class:above>
-	<h2 class="section-title">Questions?</h2>
-	<p class="section-sub">Everything you need to know about Galvei and self-hosting.</p>
+<section id="faq">
+	<div class="section-label reveal">FAQ</div>
+	<h2 class="section-title reveal">Questions?</h2>
 
-	<div class="faq-list">
-		{#each items as item, i}
-			<div class="faq-item" class:open={openIndex === i} style="transition-delay: {i * 0.05}s">
-				<button
-					class="faq-question"
-					onclick={() => toggle(i)}
-					aria-expanded={openIndex === i}
-				>
-					<span class="faq-q-text">{item.q}</span>
-					<span class="faq-chevron">
-						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18">
-							<path d="M6 9l6 6 6-6"/>
-						</svg>
-					</span>
+	<div class="faq-list reveal">
+		{#each faqs as faq, i}
+			<div class="faq-item" class:open={openIndex === i}>
+				<button class="faq-q" onclick={() => toggle(i)}>
+					{faq.q}
 				</button>
-				{#if openIndex === i}
-					<div class="faq-answer">
-						<p>{item.a}</p>
-					</div>
-				{/if}
+				<div class="faq-a">
+					<p>{faq.a}</p>
+				</div>
 			</div>
 		{/each}
 	</div>
 </section>
 
 <style>
-	.faq {
-		position: relative;
-		z-index: 3;
-		max-width: 720px;
+	section {
+		padding: 120px 48px;
+		max-width: 1200px;
 		margin: 0 auto;
-		padding: 6rem 2rem;
+	}
+
+	.section-label {
+		font-size: 12px;
+		font-family: var(--mono);
+		text-transform: uppercase;
+		letter-spacing: 0.18em;
+		color: var(--accent-dark);
+		margin-bottom: 16px;
+		font-weight: 600;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+
+	.section-label::before {
+		content: '◆ ';
+		color: var(--accent);
 	}
 
 	.section-title {
-		font-family: 'Space Grotesk', sans-serif;
-		font-size: clamp(1.6rem, 4vw, 2.2rem);
-		font-weight: 900;
-		text-align: center;
-		color: #F0EAD6;
-		margin: 0 0 0.6rem;
-		letter-spacing: -0.01em;
-		clip-path: inset(0 100% 0 0);
-		transition: clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-	}
-
-	.visible .section-title {
-		clip-path: inset(0 0 0 0);
-	}
-
-	.section-sub {
-		font-family: 'Inter', sans-serif;
-		text-align: center;
-		font-size: 0.85rem;
-		color: rgba(232, 224, 212, 0.35);
-		letter-spacing: 0.03em;
-		margin: 0 0 3.5rem;
-		opacity: 0;
-		transform: translateY(8px);
-		filter: blur(4px);
-		transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s, filter 0.5s ease 0.15s;
-	}
-
-	.visible .section-sub {
-		opacity: 1;
-		transform: translateY(0);
-		filter: blur(0);
+		font-family: var(--sans);
+		font-weight: 800;
+		font-size: clamp(32px, 4vw, 52px);
+		line-height: 1.05;
+		letter-spacing: -0.04em;
+		max-width: 700px;
 	}
 
 	.faq-list {
-		display: flex;
-		flex-direction: column;
+		margin-top: 64px;
+		max-width: 740px;
+		margin-left: auto;
+		margin-right: auto;
 	}
 
 	.faq-item {
-		border-bottom: 2px solid rgba(240, 234, 214, 0.2);
-		opacity: 0;
-		transform: translateX(20px);
-		transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+		border-top: 2px solid var(--border);
 	}
 
-	.visible .faq-item {
-		opacity: 1;
-		transform: translateX(0);
-	}
-
-	.faq-question {
+	.faq-q {
 		width: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 1rem;
-		padding: 1.2rem 0.5rem;
 		background: none;
 		border: none;
-		cursor: pointer;
+		color: var(--fg);
+		font-family: var(--sans);
+		font-size: 17px;
+		font-weight: 600;
 		text-align: left;
-		transition: background 0.2s ease;
+		padding: 24px 52px 24px 0;
+		cursor: pointer;
+		position: relative;
+		letter-spacing: -0.02em;
+		transition: color 0.2s;
 	}
 
-	.faq-question:hover {
-		background: rgba(255, 107, 53, 0.05);
+	.faq-q:hover {
+		color: var(--accent-dark);
 	}
 
-	.faq-q-text {
-		font-family: 'Inter', sans-serif;
-		font-size: 1rem;
-		font-weight: 700;
-		color: #F0EAD6;
-		letter-spacing: 0.01em;
-	}
-
-	.faq-chevron {
-		color: rgba(240, 234, 214, 0.4);
-		transition: transform 0.25s ease;
-		flex-shrink: 0;
+	.faq-q::after {
+		content: '+';
+		position: absolute;
+		right: 0;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 28px;
+		height: 28px;
+		border: 2px solid var(--border);
+		border-radius: 8px;
 		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 18px;
+		font-family: var(--mono);
+		font-weight: 400;
+		color: var(--fg-dim);
+		transition: all 0.3s;
+		line-height: 28px;
+		text-align: center;
 	}
 
-	.faq-item.open .faq-chevron {
-		transform: rotate(180deg);
-		color: #FF6B35;
+	.faq-item.open .faq-q::after {
+		background: var(--accent);
+		border-color: var(--accent);
+		color: #000;
+		transform: translateY(-50%) rotate(45deg);
 	}
 
-	.faq-answer {
+	.faq-a {
+		max-height: 0;
 		overflow: hidden;
-		animation: slide-down 0.25s ease;
+		transition:
+			max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+			padding 0.5s;
 	}
 
-	@keyframes slide-down {
-		from {
-			opacity: 0;
-			max-height: 0;
-		}
-		to {
-			opacity: 1;
-			max-height: 200px;
-		}
+	.faq-item.open .faq-a {
+		max-height: 200px;
+		padding-bottom: 24px;
 	}
 
-	.faq-answer p {
-		font-family: 'Inter', sans-serif;
-		font-size: 0.85rem;
-		color: rgba(232, 224, 212, 0.45);
-		line-height: 1.7;
-		margin: 0;
-		padding: 0 0 1.2rem;
+	.faq-a p {
+		font-size: 15px;
+		color: var(--fg-muted);
+		line-height: 1.75;
 	}
 
-	.above .section-title { clip-path: inset(0 0 0 100%); }
-	.above .section-sub { opacity: 0; transform: translateY(-8px); }
-	.above .faq-item { opacity: 0; transform: translateX(-20px); }
-
-	@media (prefers-reduced-motion: reduce) {
-		.section-title { clip-path: none; transition: none; }
-		.section-sub, .faq-item { opacity: 1; transform: none; transition: none; }
+	@media (max-width: 900px) {
+		section { padding: 80px 20px; }
 	}
 </style>

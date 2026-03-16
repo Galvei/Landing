@@ -1,242 +1,158 @@
 <script lang="ts">
-	import { scrollReveal } from '$lib/utils/scrollReveal';
-	let visible = $state(false);
-	let above = $state(false);
+	let copied = $state(false);
+
+	function copyCommand() {
+		navigator.clipboard.writeText('curl -fsSL https://get.galvei.com | sh');
+		copied = true;
+		setTimeout(() => (copied = false), 1500);
+	}
 </script>
 
-<section class="how-it-works" id="how-it-works" use:scrollReveal={{ threshold: 0.2, onchange: (v, a) => { visible = v; above = a; } }} class:visible class:above>
-	<h2 class="section-title">Up and running in three steps</h2>
-	<p class="section-sub">From zero to self-hosted in under five minutes.</p>
+<section id="how-it-works">
+	<div class="section-label reveal">How it Works</div>
+	<h2 class="section-title reveal">Three steps. Five minutes.</h2>
 
 	<div class="steps">
-		<div class="step" style="transition-delay: 0s">
-			<div class="step-number">1</div>
-			<div class="step-content">
-				<h3 class="step-name">Get a machine</h3>
-				<p class="step-desc">Any Linux box. A Raspberry Pi, an old laptop, a $5/month VPS.</p>
-				<div class="step-visual step-visual--server">
-					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" width="40" height="40">
-						<rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
-						<rect x="2" y="14" width="20" height="8" rx="2" ry="2"/>
-						<line x1="6" y1="6" x2="6.01" y2="6"/>
-						<line x1="6" y1="18" x2="6.01" y2="18"/>
-					</svg>
-				</div>
+		<div class="step reveal reveal-d1">
+			<div class="step-num">01</div>
+			<div>
+				<h3>Get a machine</h3>
+				<p>Any Linux box. A Raspberry Pi, an old laptop, a €5/month VPS.</p>
 			</div>
 		</div>
 
-		<div class="step-connector">
-			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16">
-				<path d="M5 12h14M12 5l7 7-7 7"/>
-			</svg>
-		</div>
-
-		<div class="step" style="transition-delay: 0.15s">
-			<div class="step-number">2</div>
-			<div class="step-content">
-				<h3 class="step-name">Run one command</h3>
-				<div class="step-code">
-					<code>curl -fsSL https://get.galvei.com | sh</code>
-				</div>
+		<div class="step reveal reveal-d2">
+			<div class="step-num">02</div>
+			<div>
+				<h3>Run one command</h3>
+				<p>That's it. Galvei handles the rest.</p>
+				<button class="cmd-block" onclick={copyCommand}>
+					curl -fsSL https://get.galvei.com | sh
+					<span class="copy-tag">{copied ? 'Copied!' : 'Copy'}</span>
+				</button>
 			</div>
 		</div>
 
-		<div class="step-connector">
-			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16">
-				<path d="M5 12h14M12 5l7 7-7 7"/>
-			</svg>
-		</div>
-
-		<div class="step" style="transition-delay: 0.3s">
-			<div class="step-number">3</div>
-			<div class="step-content">
-				<h3 class="step-name">Install apps from the dashboard</h3>
-				<p class="step-desc">Pick what you need. Galvei handles DNS, SSL, networking, everything.</p>
-				<div class="step-visual step-visual--dashboard">
-					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" width="40" height="40">
-						<rect x="3" y="3" width="7" height="7"/>
-						<rect x="14" y="3" width="7" height="7"/>
-						<rect x="14" y="14" width="7" height="7"/>
-						<rect x="3" y="14" width="7" height="7"/>
-					</svg>
-				</div>
+		<div class="step reveal reveal-d3">
+			<div class="step-num">03</div>
+			<div>
+				<h3>Install apps from the desktop</h3>
+				<p>Pick what you need. Galvei handles DNS, SSL, networking — everything.</p>
 			</div>
 		</div>
 	</div>
 </section>
 
 <style>
-	.how-it-works {
-		position: relative;
-		z-index: 3;
-		max-width: 900px;
+	section {
+		padding: 120px 48px;
+		max-width: 1200px;
 		margin: 0 auto;
-		padding: 6rem 2rem;
+	}
+
+	.section-label {
+		font-size: 12px;
+		font-family: var(--mono);
+		text-transform: uppercase;
+		letter-spacing: 0.18em;
+		color: var(--accent-dark);
+		margin-bottom: 16px;
+		font-weight: 600;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+
+	.section-label::before {
+		content: '◆ ';
+		color: var(--accent);
 	}
 
 	.section-title {
-		font-family: 'Space Grotesk', sans-serif;
-		font-size: clamp(1.6rem, 4vw, 2.2rem);
-		font-weight: 900;
-		text-align: center;
-		color: #F0EAD6;
-		margin: 0 0 0.6rem;
-		letter-spacing: -0.01em;
-		clip-path: inset(0 100% 0 0);
-		transition: clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-	}
-
-	.visible .section-title {
-		clip-path: inset(0 0 0 0);
-	}
-
-	.section-sub {
-		font-family: 'Inter', sans-serif;
-		text-align: center;
-		font-size: 0.85rem;
-		color: rgba(232, 224, 212, 0.35);
-		letter-spacing: 0.03em;
-		margin: 0 0 3.5rem;
-		opacity: 0;
-		transform: translateY(8px);
-		filter: blur(4px);
-		transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s, filter 0.5s ease 0.15s;
-	}
-
-	.visible .section-sub {
-		opacity: 1;
-		transform: translateY(0);
-		filter: blur(0);
+		font-family: var(--sans);
+		font-weight: 800;
+		font-size: clamp(32px, 4vw, 52px);
+		line-height: 1.05;
+		letter-spacing: -0.04em;
+		max-width: 700px;
 	}
 
 	.steps {
-		display: flex;
-		align-items: flex-start;
-		justify-content: center;
-		gap: 1.5rem;
+		margin-top: 64px;
 	}
 
 	.step {
-		flex: 1;
-		max-width: 260px;
-		text-align: center;
-		opacity: 0;
-		transform: translateY(24px) scale(0.94);
-		filter: blur(6px);
-		transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+		display: grid;
+		grid-template-columns: 120px 1fr;
+		gap: 48px;
+		padding: 56px 0;
+		border-top: 2px solid var(--border);
+		align-items: start;
 	}
 
-	.visible .step {
-		opacity: 1;
-		transform: translateY(0) scale(1);
-		filter: blur(0);
-	}
-
-	.step-connector {
-		opacity: 0;
-		transition: opacity 0.5s ease 0.4s;
-	}
-
-	.visible .step-connector {
-		opacity: 1;
-	}
-
-	.step-number {
-		font-family: 'Space Grotesk', sans-serif;
-		font-size: 3rem;
+	.step-num {
+		font-family: var(--sans);
 		font-weight: 900;
-		color: #FFD600;
-		margin-bottom: 1rem;
-		line-height: 1;
+		font-size: 80px;
+		line-height: 0.8;
+		letter-spacing: -0.06em;
+		color: var(--accent);
 	}
 
-	.step-content {
-		background: transparent;
-		border: 2px solid rgba(240, 234, 214, 0.25);
-		border-radius: 0;
-		padding: 1.5rem 1.2rem;
-		transition: border-color 0.3s ease, box-shadow 0.3s ease;
+	.step h3 {
+		font-size: 24px;
+		font-weight: 800;
+		margin-bottom: 8px;
+		letter-spacing: -0.03em;
 	}
 
-	.step-content:hover {
-		border-color: #FF6B35;
-		box-shadow: 4px 4px 0 #FF6B35;
+	.step p {
+		font-size: 16px;
+		color: var(--fg-muted);
+		line-height: 1.65;
 	}
 
-	.step-name {
-		font-family: 'Space Grotesk', sans-serif;
-		font-size: 1.05rem;
-		font-weight: 700;
-		color: #F0EAD6;
-		margin: 0 0 0.6rem;
-	}
-
-	.step-desc {
-		font-family: 'Inter', sans-serif;
-		font-size: 0.82rem;
-		color: rgba(232, 224, 212, 0.45);
-		line-height: 1.7;
-		margin: 0;
-	}
-
-	.step-code {
-		background: #0d0d09;
-		border: 2px solid #FF6B35;
-		border-radius: 0;
-		padding: 0.8rem 1rem;
-		margin-top: 0.5rem;
-	}
-
-	.step-code code {
-		font-family: 'JetBrains Mono', 'Fira Code', monospace;
-		font-size: 0.7rem;
-		color: #FF6B35;
-		word-break: break-all;
-	}
-
-	.step-visual {
-		margin-top: 1rem;
-		color: rgba(196, 114, 78, 0.4);
-		display: flex;
-		justify-content: center;
-	}
-
-	.step-connector {
-		display: flex;
+	.cmd-block {
+		display: inline-flex;
 		align-items: center;
-		color: #FF6B35;
-		padding-top: 3.5rem;
-		flex-shrink: 0;
+		gap: 16px;
+		margin-top: 18px;
+		padding: 16px 28px;
+		background: var(--bg-dark);
+		border: none;
+		border-radius: 12px;
+		font-family: var(--mono);
+		font-size: 14px;
+		color: var(--accent);
+		cursor: pointer;
+		transition: all 0.3s;
 	}
 
-	@media (max-width: 768px) {
-		.steps {
-			flex-direction: column;
-			align-items: center;
-		}
+	.cmd-block:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+	}
 
+	.copy-tag {
+		font-size: 11px;
+		color: rgba(255, 255, 255, 0.3);
+		padding: 3px 10px;
+		background: rgba(255, 255, 255, 0.06);
+		border-radius: 6px;
+		transition: all 0.2s;
+	}
+
+	.cmd-block:hover .copy-tag {
+		background: rgba(45, 212, 168, 0.15);
+		color: var(--accent);
+	}
+
+	@media (max-width: 900px) {
+		section { padding: 80px 20px; }
 		.step {
-			max-width: 100%;
-			width: 100%;
+			grid-template-columns: 72px 1fr;
+			gap: 24px;
 		}
-
-		.step-connector {
-			padding-top: 0;
-		}
-
-		.step-connector svg {
-			transform: rotate(90deg);
-		}
+		.step-num { font-size: 52px; }
 	}
-
-	.above .section-title { clip-path: inset(0 0 0 100%); }
-	.above .section-sub { opacity: 0; transform: translateY(-8px); filter: blur(4px); }
-	.above .step { opacity: 0; transform: translateY(-24px) scale(0.94); filter: blur(6px); }
-	.above .step-connector { opacity: 0; }
-
-	@media (prefers-reduced-motion: reduce) {
-		.section-title { clip-path: none; transition: none; }
-		.section-sub, .step, .step-connector { opacity: 1; transform: none; filter: none; transition: none; }
-	}
-
 </style>

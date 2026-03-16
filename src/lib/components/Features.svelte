@@ -1,201 +1,319 @@
 <script lang="ts">
-	import { scrollReveal } from '$lib/utils/scrollReveal';
-	let visible = $state(false);
-	let above = $state(false);
+	import { onMount } from 'svelte';
 
-	const features = [
-		{
-			name: 'Docker Native',
-			desc: 'Deploy, manage, and monitor containers from a clean UI. No terminal needed.',
-			icon: 'container',
-		},
-		{
-			name: 'One Dashboard',
-			desc: 'CPU, RAM, disk, network, running services. Everything on one screen.',
-			icon: 'grid',
-		},
-		{
-			name: 'App Store',
-			desc: 'Jellyfin, Nextcloud, Vaultwarden. One click to install, auto-configured.',
-			icon: 'apps',
-		},
-		{
-			name: 'Secure by Default',
-			desc: 'Auto SSL, reverse proxy, auth built in. Your data stays on your hardware.',
-			icon: 'shield',
-		},
-		{
-			name: 'Any Hardware',
-			desc: 'Raspberry Pi, old laptop, VPS, dedicated server. If it runs Linux and has 2GB RAM, it works.',
-			icon: 'server',
-		},
-		{
-			name: 'Your Data, Your Rules',
-			desc: 'No cloud dependency. No subscriptions. No one sees your data but you.',
-			icon: 'key',
-		},
-	];
+	onMount(() => {
+		// 3D tilt on bento cards
+		const cards = document.querySelectorAll<HTMLElement>('.bento-card');
+		cards.forEach((card) => {
+			card.addEventListener('mousemove', (e: MouseEvent) => {
+				const rect = card.getBoundingClientRect();
+				const x = (e.clientX - rect.left) / rect.width - 0.5;
+				const y = (e.clientY - rect.top) / rect.height - 0.5;
+				card.style.transition = 'none';
+				card.style.transform = `translateY(-6px) rotateX(${-y * 6}deg) rotateY(${x * 6}deg)`;
+			});
+			card.addEventListener('mouseleave', () => {
+				card.style.transition = '';
+				card.style.transform = '';
+			});
+		});
 
+		// Bar chart animation
+		const dashCard = document.getElementById('dashCard');
+		if (dashCard) {
+			const barsObs = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((e) => {
+						if (e.isIntersecting) {
+							dashCard.classList.add('bars-active');
+							barsObs.unobserve(dashCard);
+						}
+					});
+				},
+				{ threshold: 0.3 }
+			);
+			barsObs.observe(dashCard);
+		}
+	});
 </script>
 
-<section class="features-section" id="features" use:scrollReveal={{ threshold: 0.15, onchange: (v, a) => { visible = v; above = a; } }} class:visible class:above>
-	<h2 class="section-title">What you get</h2>
-	<p class="section-sub">Everything you need to run your own cloud.</p>
-	<div class="features-grid">
-		{#each features as feature, i}
-			<div class="feature-card" style="transition-delay: {i * 0.08}s">
-				<div class="feature-icon">
-					{#if feature.icon === 'container'}
-						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
-							<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-							<polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-							<line x1="12" y1="22.08" x2="12" y2="12"/>
-						</svg>
-					{:else if feature.icon === 'grid'}
-						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
-							<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
-							<rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
-						</svg>
-					{:else if feature.icon === 'apps'}
-						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
-							<circle cx="12" cy="12" r="10"/>
-							<line x1="2" y1="12" x2="22" y2="12"/>
-							<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-						</svg>
-					{:else if feature.icon === 'shield'}
-						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
-							<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-						</svg>
-					{:else if feature.icon === 'server'}
-						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
-							<rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
-							<rect x="2" y="14" width="20" height="8" rx="2" ry="2"/>
-							<line x1="6" y1="6" x2="6.01" y2="6"/>
-							<line x1="6" y1="18" x2="6.01" y2="18"/>
-						</svg>
-					{:else if feature.icon === 'key'}
-						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
-							<path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
-						</svg>
-					{/if}
-				</div>
-				<h3 class="feature-name">{feature.name}</h3>
-				<p class="feature-desc">{feature.desc}</p>
+<section id="features">
+	<div class="section-label reveal">Features</div>
+	<h2 class="section-title reveal">Everything you need to run your own cloud.</h2>
+
+	<div class="bento">
+		<div class="bento-card span-8 reveal reveal-d1">
+			<div class="b-icon">⬡</div>
+			<h3>Docker Native</h3>
+			<p>Deploy, manage, and monitor containers from a clean UI. Full lifecycle — create, start, stop, logs, stats. No compose files.</p>
+		</div>
+
+		<div class="bento-card span-4 accent-card reveal reveal-d2">
+			<div class="b-icon">✓</div>
+			<h3>Secure by Default</h3>
+			<p>Auto SSL, reverse proxy, auth built in. Your data never leaves your hardware.</p>
+		</div>
+
+		<div class="bento-card span-4 reveal reveal-d1">
+			<div class="b-icon">◆</div>
+			<h3>App Store</h3>
+			<p>One click to install, auto-configured.</p>
+			<div class="app-bubbles">
+				<div class="app-b" title="Jellyfin">📺</div>
+				<div class="app-b" title="Nextcloud">☁️</div>
+				<div class="app-b" title="Vaultwarden">🔐</div>
+				<div class="app-b" title="Immich">📷</div>
+				<div class="app-b" title="Home Assistant">🏠</div>
+				<div class="app-b" title="Gitea">🐱</div>
 			</div>
-		{/each}
+			<p class="app-list">Jellyfin · Nextcloud · Vaultwarden · Immich · Home Assistant · Gitea & more</p>
+		</div>
+
+		<div class="bento-card span-4 dark-card reveal reveal-d2" id="dashCard">
+			<div class="b-icon">◎</div>
+			<h3>One Desktop</h3>
+			<p>Everything at a glance.</p>
+			<div class="mini-bars">
+				<div class="mini-bar"></div>
+				<div class="mini-bar"></div>
+				<div class="mini-bar"></div>
+				<div class="mini-bar"></div>
+				<div class="mini-bar"></div>
+				<div class="mini-bar"></div>
+				<div class="mini-bar"></div>
+				<div class="mini-bar"></div>
+			</div>
+		</div>
+
+		<div class="bento-card span-4 reveal reveal-d3">
+			<div class="b-icon">⬢</div>
+			<h3>Any Hardware</h3>
+			<p>If it runs Linux, it works.</p>
+			<div class="hw-chips">
+				<span class="hw-chip">RPi 4</span>
+				<span class="hw-chip">x86_64</span>
+				<span class="hw-chip">ARM64</span>
+				<span class="hw-chip">VPS</span>
+			</div>
+		</div>
+
+		<div class="bento-card span-5 reveal reveal-d1">
+			<div class="b-icon">✦</div>
+			<h3>Your Data, Your Rules</h3>
+			<p>No cloud dependency. No subscriptions. No one sees your data but you. Full digital sovereignty.</p>
+		</div>
+
+		<div class="bento-card span-7 accent-card reveal reveal-d2">
+			<div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
+				<span style="font-size:32px;">🇪🇺</span>
+				<h3 style="margin:0;">Made in Europe</h3>
+			</div>
+			<p>Built in Slovakia. GDPR-first design. NIS2 compliance readiness for European businesses.</p>
+		</div>
 	</div>
 </section>
 
 <style>
-	.features-section {
-		position: relative;
-		z-index: 3;
-		max-width: 1000px;
+	section {
+		padding: 120px 48px;
+		max-width: 1200px;
 		margin: 0 auto;
-		padding: 6rem 2rem;
+	}
+
+	.section-label {
+		font-size: 12px;
+		font-family: var(--mono);
+		text-transform: uppercase;
+		letter-spacing: 0.18em;
+		color: var(--accent-dark);
+		margin-bottom: 16px;
+		font-weight: 600;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+
+	.section-label::before {
+		content: '◆ ';
+		color: var(--accent);
 	}
 
 	.section-title {
-		font-family: 'Space Grotesk', sans-serif;
-		font-size: clamp(1.6rem, 4vw, 2.2rem);
-		font-weight: 900;
-		letter-spacing: -0.01em;
-		text-align: center;
-		color: #F0EAD6;
-		margin: 0 0 0.6rem;
-		clip-path: inset(0 100% 0 0);
-		transition: clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+		font-family: var(--sans);
+		font-weight: 800;
+		font-size: clamp(32px, 4vw, 52px);
+		line-height: 1.05;
+		letter-spacing: -0.04em;
+		max-width: 700px;
 	}
 
-	.visible .section-title {
-		clip-path: inset(0 0 0 0);
-	}
-
-	.section-sub {
-		font-family: 'Inter', sans-serif;
-		text-align: center;
-		font-size: 0.85rem;
-		color: rgba(240, 234, 214, 0.5);
-		letter-spacing: 0.03em;
-		margin: 0 0 3.5rem;
-		opacity: 0;
-		transform: translateY(8px);
-		transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s;
-	}
-
-	.visible .section-sub {
-		opacity: 1;
-		transform: translateY(0);
-	}
-
-	.features-grid {
+	.bento {
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 1px;
-		border: 2px solid rgba(240, 234, 214, 0.2);
+		grid-template-columns: repeat(12, 1fr);
+		gap: 16px;
+		margin-top: 64px;
 	}
 
-	@media (max-width: 700px) {
-		.features-grid {
-			grid-template-columns: repeat(2, 1fr);
-		}
+	.bento-card {
+		background: #fff;
+		border: 2px solid var(--border);
+		border-radius: 20px;
+		padding: 40px 32px;
+		position: relative;
+		overflow: hidden;
+		transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 	}
 
-	@media (max-width: 420px) {
-		.features-grid { grid-template-columns: 1fr; }
+	.bento-card:hover {
+		transform: translateY(-6px);
+		border-color: var(--accent);
+		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06);
 	}
 
-	.feature-card {
-		background: #111008;
-		border: none;
-		border-right: 1px solid rgba(240, 234, 214, 0.15);
-		border-bottom: 1px solid rgba(240, 234, 214, 0.15);
-		padding: 2rem 1.5rem;
-		opacity: 0;
-		transform: translateY(20px);
-		transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-			background 0.25s ease, box-shadow 0.25s ease;
+	.bento-card.span-8 { grid-column: span 8; }
+	.bento-card.span-7 { grid-column: span 7; }
+	.bento-card.span-6 { grid-column: span 6; }
+	.bento-card.span-5 { grid-column: span 5; }
+	.bento-card.span-4 { grid-column: span 4; }
+
+	.bento-card.accent-card {
+		background: var(--accent);
+		border-color: var(--accent);
+		color: #000;
 	}
 
-	.visible .feature-card {
-		opacity: 1;
-		transform: translateY(0);
+	.bento-card.dark-card {
+		background: var(--bg-dark);
+		border-color: var(--bg-dark);
+		color: #e4e4e7;
 	}
 
-	.feature-card:hover,
-	.visible .feature-card:hover {
-		background: rgba(255, 107, 53, 0.06);
-		box-shadow: inset 0 0 0 2px #FF6B35;
+	.b-icon {
+		width: 52px;
+		height: 52px;
+		border-radius: 14px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 24px;
+		margin-bottom: 24px;
+		background: rgba(0, 0, 0, 0.04);
+		transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 	}
 
-	.feature-icon {
-		color: #FF6B35;
-		margin-bottom: 1rem;
-		opacity: 1;
+	.bento-card:hover .b-icon { transform: scale(1.15) rotate(-5deg); }
+	.accent-card .b-icon { background: rgba(0, 0, 0, 0.08); }
+	.dark-card .b-icon { background: rgba(255, 255, 255, 0.06); }
+
+	.bento-card h3 {
+		font-size: 22px;
+		font-weight: 800;
+		margin-bottom: 8px;
+		letter-spacing: -0.03em;
 	}
 
-	.feature-name {
-		font-family: 'Space Grotesk', sans-serif;
-		font-size: 1.1rem;
-		font-weight: 700;
-		color: #F0EAD6;
-		margin: 0 0 0.5rem;
-	}
-
-	.feature-desc {
-		font-family: 'Inter', sans-serif;
-		font-size: 0.82rem;
-		color: rgba(232, 224, 212, 0.45);
+	.bento-card p {
+		font-size: 14px;
+		color: var(--fg-muted);
 		line-height: 1.7;
-		margin: 0;
+		font-weight: 400;
 	}
 
-	.above .section-title { clip-path: inset(0 0 0 100%); }
-	.above .section-sub { opacity: 0; transform: translateY(-8px); }
-	.above .feature-card { opacity: 0; transform: translateY(-24px) scale(0.92); }
+	.accent-card p { color: rgba(0, 0, 0, 0.6); }
+	.dark-card p { color: rgba(255, 255, 255, 0.5); }
 
-	@media (prefers-reduced-motion: reduce) {
-		.section-title { clip-path: none; transition: none; }
-		.section-sub, .feature-card { opacity: 1; transform: none; transition: border-color 0.3s ease; }
+	.app-list {
+		font-size: 11px !important;
+		color: var(--fg-dim) !important;
+		margin-top: 10px;
+		font-family: var(--mono);
+	}
+
+	/* Mini bars */
+	.mini-bars {
+		display: flex;
+		gap: 4px;
+		align-items: flex-end;
+		height: 64px;
+		margin-top: 20px;
+	}
+
+	.mini-bar {
+		flex: 1;
+		border-radius: 3px 3px 0 0;
+		background: var(--accent);
+		opacity: 0.6;
+		height: 8% !important;
+		transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	:global(#dashCard.bars-active) .mini-bar:nth-child(1) { height: 40% !important; }
+	:global(#dashCard.bars-active) .mini-bar:nth-child(2) { height: 65% !important; }
+	:global(#dashCard.bars-active) .mini-bar:nth-child(3) { height: 50% !important; }
+	:global(#dashCard.bars-active) .mini-bar:nth-child(4) { height: 85% !important; }
+	:global(#dashCard.bars-active) .mini-bar:nth-child(5) { height: 45% !important; }
+	:global(#dashCard.bars-active) .mini-bar:nth-child(6) { height: 95% !important; }
+	:global(#dashCard.bars-active) .mini-bar:nth-child(7) { height: 55% !important; }
+	:global(#dashCard.bars-active) .mini-bar:nth-child(8) { height: 70% !important; }
+
+	/* Hardware chips */
+	.hw-chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin-top: 16px;
+	}
+
+	.hw-chip {
+		font-size: 12px;
+		font-family: var(--mono);
+		font-weight: 600;
+		padding: 6px 14px;
+		border: 2px solid var(--border);
+		border-radius: 100px;
+		color: var(--fg-muted);
+		transition: all 0.2s;
+	}
+
+	.hw-chip:hover {
+		border-color: var(--accent);
+		color: var(--fg);
+		background: rgba(45, 212, 168, 0.06);
+	}
+
+	/* App bubbles */
+	.app-bubbles {
+		display: flex;
+		gap: 10px;
+		margin-top: 20px;
+	}
+
+	.app-b {
+		width: 48px;
+		height: 48px;
+		border-radius: 14px;
+		background: rgba(0, 0, 0, 0.05);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 22px;
+		transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+		border: 2px solid transparent;
+	}
+
+	.app-b:hover {
+		transform: translateY(-6px) scale(1.08);
+		border-color: var(--accent);
+		background: rgba(45, 212, 168, 0.08);
+	}
+
+	@media (max-width: 900px) {
+		section { padding: 80px 20px; }
+		.bento { grid-template-columns: 1fr; }
+		.bento-card.span-8,
+		.bento-card.span-7,
+		.bento-card.span-6,
+		.bento-card.span-5,
+		.bento-card.span-4 { grid-column: span 1; }
 	}
 </style>

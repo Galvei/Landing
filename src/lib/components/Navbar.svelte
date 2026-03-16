@@ -1,134 +1,105 @@
 <script lang="ts">
-	let menuOpen = $state(false);
-	let scrolled = $state(false);
+	import { onMount } from 'svelte';
 
-	function handleScroll() {
-		scrolled = window.scrollY > 20;
-	}
+	let menuOpen = $state(false);
 
 	function closeMenu() {
 		menuOpen = false;
 	}
 
-import { onMount } from 'svelte';
 	onMount(() => {
-		window.addEventListener('scroll', handleScroll, { passive: true });
-		return () => window.removeEventListener('scroll', handleScroll);
+		// close mobile menu on resize
+		const onResize = () => { if (window.innerWidth > 900) menuOpen = false; };
+		window.addEventListener('resize', onResize);
+		return () => window.removeEventListener('resize', onResize);
 	});
 </script>
 
-<nav class="navbar" class:scrolled aria-label="Main navigation">
-	<div class="navbar-inner">
-		<a href="#top" class="navbar-logo">Galvei</a>
+<nav aria-label="Main navigation">
+	<a href="#top" class="nav-logo">Galvei</a>
 
-		<div class="navbar-center" class:open={menuOpen}>
-			<a href="#features" class="nav-link" onclick={closeMenu}>Features</a>
-			<a href="#how-it-works" class="nav-link" onclick={closeMenu}>How It Works</a>
-			<a href="#roadmap" class="nav-link" onclick={closeMenu}>Roadmap</a>
-			<a href="#faq" class="nav-link" onclick={closeMenu}>FAQ</a>
-		</div>
+	<ul class="nav-links" class:open={menuOpen}>
+		<li><a href="#features" onclick={closeMenu}>Features</a></li>
+		<li><a href="#how-it-works" onclick={closeMenu}>How it works</a></li>
+		<li><a href="#roadmap" onclick={closeMenu}>Roadmap</a></li>
+		<li><a href="#faq" onclick={closeMenu}>FAQ</a></li>
+	</ul>
 
-		<div class="navbar-right">
-			<a href="#waitlist" class="nav-cta">Join Waitlist</a>
-		</div>
+	<a href="#waitlist" class="nav-cta">Join Waitlist</a>
 
-		<button
-			class="hamburger"
-			class:open={menuOpen}
-			onclick={() => menuOpen = !menuOpen}
-			aria-label="Toggle menu"
-			aria-expanded={menuOpen}
-		>
-			<span></span>
-			<span></span>
-			<span></span>
-		</button>
-	</div>
+	<button
+		class="hamburger"
+		class:open={menuOpen}
+		onclick={() => (menuOpen = !menuOpen)}
+		aria-label="Toggle menu"
+		aria-expanded={menuOpen}
+	>
+		<span></span>
+		<span></span>
+		<span></span>
+	</button>
 </nav>
 
 <style>
-	.navbar {
+	nav {
 		position: fixed;
 		top: 0;
 		left: 0;
 		right: 0;
 		z-index: 100;
-		padding: 0 2rem;
-		background: #111008;
-		border-bottom: 2px solid rgba(240, 234, 214, 0.75);
-		transition: border-color 0.3s ease;
-	}
-
-	.navbar.scrolled {
-		border-bottom-color: rgba(240, 234, 214, 0.75);
-	}
-
-	.navbar-inner {
-		max-width: 1100px;
-		margin: 0 auto;
+		padding: 16px 48px;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		height: 60px;
+		backdrop-filter: blur(20px) saturate(1.3);
+		-webkit-backdrop-filter: blur(20px) saturate(1.3);
+		background: rgba(250, 250, 248, 0.85);
+		border-bottom: 1px solid var(--border);
 	}
 
-	.navbar-logo {
-		font-family: 'Space Grotesk', sans-serif;
-		font-size: 1.5rem;
+	.nav-logo {
+		font-family: var(--sans);
 		font-weight: 900;
-		color: #F0EAD6;
+		font-size: 20px;
+		letter-spacing: -0.06em;
+		text-transform: uppercase;
+		color: var(--fg);
 		text-decoration: none;
-		letter-spacing: 0.01em;
-		flex-shrink: 0;
 	}
 
-	.navbar-center {
+	.nav-links {
 		display: flex;
-		gap: 2rem;
-		align-items: center;
+		gap: 32px;
+		list-style: none;
 	}
 
-	.nav-link {
-		font-family: 'Inter', sans-serif;
-		font-size: 0.8rem;
+	.nav-links a {
+		font-size: 14px;
+		color: var(--fg-muted);
 		font-weight: 500;
-		color: rgba(240, 234, 214, 0.55);
-		text-decoration: none;
-		letter-spacing: 0.03em;
-		transition: color 0.25s ease;
+		transition: color 0.2s;
 	}
 
-	.nav-link:hover {
-		color: #F0EAD6;
-		text-decoration: underline;
-	}
-
-	.navbar-right {
-		display: flex;
-		align-items: center;
-		gap: 1.2rem;
-		flex-shrink: 0;
+	.nav-links a:hover {
+		color: var(--fg);
 	}
 
 	.nav-cta {
-		font-family: 'Inter', sans-serif;
-		font-size: 0.75rem;
+		font-size: 13px;
 		font-weight: 700;
-		letter-spacing: 0.04em;
+		padding: 10px 28px;
+		background: var(--fg);
+		color: var(--bg);
+		border-radius: 8px;
+		transition: all 0.25s;
 		text-transform: uppercase;
-		text-decoration: none;
-		padding: 0.5rem 1.2rem;
-		background: #FF6B35;
-		color: #111008;
-		border-radius: 0;
-		border: 2px solid #FF6B35;
-		box-shadow: 3px 3px 0 #FFD600;
-		transition: box-shadow 0.2s ease, transform 0.2s ease;
+		letter-spacing: 0.04em;
 	}
 
 	.nav-cta:hover {
-		box-shadow: 1px 1px 0 #FFD600;
-		transform: translate(2px, 2px);
+		background: var(--accent-dark);
+		color: #fff;
+		transform: translateY(-1px);
 	}
 
 	.hamburger {
@@ -144,46 +115,41 @@ import { onMount } from 'svelte';
 	.hamburger span {
 		display: block;
 		width: 22px;
-		height: 3px;
-		background: rgba(240, 234, 214, 0.8);
+		height: 2px;
+		background: var(--fg);
 		transition: all 0.3s ease;
 	}
 
-	.hamburger.open span:nth-child(1) {
-		transform: rotate(45deg) translate(5.5px, 5.5px);
-	}
-	.hamburger.open span:nth-child(2) {
-		opacity: 0;
-	}
-	.hamburger.open span:nth-child(3) {
-		transform: rotate(-45deg) translate(5.5px, -5.5px);
-	}
+	.hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+	.hamburger.open span:nth-child(2) { opacity: 0; }
+	.hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
-	@media (max-width: 768px) {
-		.navbar-center {
+	@media (max-width: 900px) {
+		nav {
+			padding: 12px 20px;
+		}
+
+		.nav-links {
 			position: fixed;
-			top: 60px;
+			top: 53px;
 			left: 0;
 			right: 0;
 			flex-direction: column;
-			background: #111008;
-			padding: 1.5rem 2rem;
-			gap: 1.2rem;
-			border-bottom: 2px solid rgba(240, 234, 214, 0.75);
-			transform: translateY(-100%);
+			background: rgba(250, 250, 248, 0.97);
+			backdrop-filter: blur(20px);
+			padding: 24px 20px;
+			gap: 16px;
+			border-bottom: 1px solid var(--border);
+			transform: translateY(-110%);
 			opacity: 0;
 			pointer-events: none;
 			transition: all 0.3s ease;
 		}
 
-		.navbar-center.open {
+		.nav-links.open {
 			transform: translateY(0);
 			opacity: 1;
 			pointer-events: all;
-		}
-
-		.nav-link {
-			font-size: 0.9rem;
 		}
 
 		.hamburger {
