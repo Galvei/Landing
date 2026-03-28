@@ -81,6 +81,7 @@
 		padding: 120px 48px;
 		max-width: 1200px;
 		margin: 0 auto;
+		overflow: hidden;
 	}
 
 	.section-label {

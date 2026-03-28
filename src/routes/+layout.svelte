@@ -42,6 +42,7 @@
 
 	:global(html) {
 		scroll-behavior: smooth;
+		overflow-x: hidden;
 	}
 
 	:global(body) {
@@ -52,6 +53,7 @@
 		line-height: 1.6;
 		-webkit-font-smoothing: antialiased;
 		overflow-x: hidden;
+		width: 100%;
 	}
 
 	/* Grain overlay */

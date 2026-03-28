@@ -48,6 +48,7 @@
 		right: 0;
 		z-index: 100;
 		padding: 16px 48px;
+		padding-top: calc(16px + env(safe-area-inset-top));
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
