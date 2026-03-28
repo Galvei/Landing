@@ -1,32 +1,10 @@
 <script lang="ts">
-	import avatarImg from '$lib/assets/anime-style-character-space.jpg';
+	import Modal from './Modal.svelte';
+	let privacyOpen = $state(false);
+	let termsOpen = $state(false);
+	let bslOpen = $state(false);
 </script>
 
-<!-- Made By Section -->
-<div class="made-by reveal">
-	<div class="made-by-avatar">
-		<img src={avatarImg} alt="Jessie" />
-	</div>
-	<div class="made-by-content">
-		<div class="made-by-label">Built by</div>
-		<h2 class="made-by-name">
-			<a href="https://jessimka.com">Jessie</a>
-			<span class="pronouns">she/her</span>
-		</h2>
-		<p class="made-by-bio">20-year-old developer from Slovakia. Building the self-hosting tool I always wanted to exist.</p>
-		<div class="made-by-stack">
-			<span>C#</span><span>ASP.NET</span><span>Svelte</span><span>Python</span>
-			<span>Linux</span><span>PostgreSQL</span><span>SQLite</span><span>macOS</span>
-		</div>
-		<div class="made-by-links">
-			<a href="https://jessimka.com" class="made-by-link">Website</a>
-			<a href="https://github.com/galvei" class="made-by-link">GitHub</a>
-			<a href="https://discord.gg/galvei" class="made-by-link">Discord</a>
-		</div>
-	</div>
-</div>
-
-<!-- Footer -->
 <footer>
 	<div class="footer-top">
 		<div>
@@ -43,161 +21,97 @@
 			</div>
 			<div class="footer-col">
 				<h4>Community</h4>
-				<a href="https://discord.gg/galvei">Discord</a>
+				<a href="https://discord.gg/8xFqs4fqUq">Discord</a>
 				<a href="https://github.com/galvei">GitHub</a>
 			</div>
 			<div class="footer-col">
 				<h4>Legal</h4>
-				<a href="#">Privacy</a>
-				<a href="#">Terms</a>
-				<a href="#">BSL 1.1</a>
+				<button class="link-btn" onclick={() => privacyOpen = true}>Privacy</button>
+				<button class="link-btn" onclick={() => termsOpen = true}>Terms</button>
+				<button class="link-btn" onclick={() => bslOpen = true}>BSL 1.1</button>
 			</div>
 		</div>
 	</div>
 	<div class="footer-bottom">
-		<span>Made in Europe by <a href="https://jessimka.com">Jessie</a></span>
+		<span>Made in Europe by Galvei</span>
 		<span>© 2026 Galvei</span>
 	</div>
 </footer>
 
+<Modal bind:open={privacyOpen} title="Privacy Policy">
+	{#snippet children()}
+		<p class="note">Full policy coming before launch.</p>
+		<p>Here's what we do with your data right now:</p>
+		<div class="items">
+			<div class="item">
+				<span class="label">What we collect</span>
+				<span>Your email address when you join the waitlist. Nothing else.</span>
+			</div>
+			<div class="item">
+				<span class="label">Why</span>
+				<span>To notify you about early access and product updates.</span>
+			</div>
+			<div class="item">
+				<span class="label">Who sees it</span>
+				<span>Nobody. We don't sell or share your data with third parties.</span>
+			</div>
+			<div class="item">
+				<span class="label">Storage</span>
+				<span>Stored securely on Supabase infrastructure in the EU.</span>
+			</div>
+			<div class="item">
+				<span class="label">Unsubscribe</span>
+				<span>Reply to any email and we'll remove you immediately.</span>
+			</div>
+		</div>
+	{/snippet}
+</Modal>
+
+<Modal bind:open={termsOpen} title="Terms of Service">
+	{#snippet children()}
+		<p class="note">Full terms coming before launch.</p>
+		<p>By joining the waitlist you agree to:</p>
+		<div class="items">
+			<div class="item">
+				<span class="label">Emails</span>
+				<span>Receive occasional updates about Galvei development and early access.</span>
+			</div>
+			<div class="item">
+				<span class="label">Liability</span>
+				<span>Galvei is pre-launch software. No warranties or guarantees apply at this stage.</span>
+			</div>
+		</div>
+	{/snippet}
+</Modal>
+
+<Modal bind:open={bslOpen} title="Business Source License 1.1">
+	{#snippet children()}
+		<p class="notice">The final license has not been decided yet. BSL 1.1 is a placeholder — the licensing model may change before launch.</p>
+		<p>Currently listed under <strong class="hl">BSL 1.1</strong> — source-available with a time-delayed open-source conversion.</p>
+		<div class="items" style="margin-top: 20px;">
+			<div class="item">
+				<span class="label">You can</span>
+				<span>View, fork, and modify the source for personal and non-production use.</span>
+			</div>
+			<div class="item">
+				<span class="label">You cannot</span>
+				<span>Run Galvei in production, offer it as a hosted service, or use it commercially without a separate agreement.</span>
+			</div>
+			<div class="item">
+				<span class="label">Change date</span>
+				<span>Four years after each release, the code converts automatically to Apache 2.0.</span>
+			</div>
+		</div>
+		<div class="bsl-block">
+			<p><span class="dim">Licensor:</span> Galvei</p>
+			<p><span class="dim">Licensed Work:</span> Galvei</p>
+			<p><span class="dim">Change License:</span> Apache License 2.0</p>
+			<p><span class="dim">Change Date:</span> Four years from each version's first public release</p>
+		</div>
+	{/snippet}
+</Modal>
+
 <style>
-	/* Made By */
-	.made-by {
-		padding: 100px 48px;
-		border-top: 2px solid var(--border);
-		max-width: 1200px;
-		margin: 0 auto;
-		display: flex;
-		align-items: center;
-		gap: 64px;
-	}
-
-	.made-by-avatar {
-		width: 120px;
-		height: 120px;
-		border-radius: 24px;
-		overflow: hidden;
-		flex-shrink: 0;
-		border: 3px solid var(--border);
-		transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-	}
-
-	.made-by-avatar img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		display: block;
-	}
-
-	.made-by-avatar:hover {
-		transform: rotate(-5deg) scale(1.05);
-	}
-
-	.made-by-label {
-		font-family: var(--mono);
-		font-size: 12px;
-		text-transform: uppercase;
-		letter-spacing: 0.15em;
-		color: var(--accent-dark);
-		font-weight: 600;
-		margin-bottom: 12px;
-		display: flex;
-		align-items: center;
-		gap: 10px;
-	}
-
-	.made-by-label::before {
-		content: '◆ ';
-		color: var(--accent);
-	}
-
-	.made-by-name {
-		font-family: var(--serif);
-		font-size: clamp(28px, 3.5vw, 42px);
-		font-weight: 400;
-		letter-spacing: -0.03em;
-		line-height: 1.15;
-		margin-bottom: 12px;
-	}
-
-	.made-by-name a {
-		color: var(--fg);
-		transition: color 0.2s;
-	}
-
-	.made-by-name a:hover {
-		color: var(--accent-dark);
-	}
-
-	.pronouns {
-		font-family: var(--mono);
-		font-size: 14px;
-		color: var(--fg-dim);
-		font-style: normal;
-		vertical-align: middle;
-		margin-left: 8px;
-	}
-
-	.made-by-bio {
-		font-size: 16px;
-		color: var(--fg-muted);
-		line-height: 1.7;
-		max-width: 520px;
-		margin-bottom: 20px;
-	}
-
-	.made-by-stack {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 8px;
-		margin-bottom: 20px;
-	}
-
-	.made-by-stack span {
-		font-size: 12px;
-		font-family: var(--mono);
-		font-weight: 600;
-		padding: 5px 14px;
-		border: 2px solid var(--border);
-		border-radius: 100px;
-		color: var(--fg-muted);
-		transition: all 0.25s;
-		cursor: default;
-	}
-
-	.made-by-stack span:hover {
-		border-color: var(--accent);
-		color: var(--accent-dark);
-		background: rgba(45, 212, 168, 0.05);
-		transform: translateY(-2px);
-	}
-
-	.made-by-links {
-		display: flex;
-		gap: 12px;
-	}
-
-	.made-by-link {
-		font-size: 13px;
-		font-family: var(--mono);
-		font-weight: 600;
-		padding: 8px 20px;
-		border: 2px solid var(--border);
-		border-radius: 10px;
-		color: var(--fg-muted);
-		transition: all 0.25s;
-		text-transform: uppercase;
-		letter-spacing: 0.04em;
-	}
-
-	.made-by-link:hover {
-		border-color: var(--accent);
-		color: var(--fg);
-		background: rgba(45, 212, 168, 0.04);
-		transform: translateY(-2px);
-	}
-
-	/* Footer */
 	footer {
 		padding: 64px 48px;
 		border-top: 2px solid var(--border);
@@ -240,7 +154,8 @@
 		font-weight: 700;
 	}
 
-	.footer-col a {
+	.footer-col a,
+	.link-btn {
 		display: block;
 		font-size: 14px;
 		color: var(--fg-muted);
@@ -249,9 +164,17 @@
 		font-weight: 400;
 	}
 
-	.footer-col a:hover {
-		color: var(--fg);
+	.link-btn {
+		background: none;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		font-family: inherit;
+		text-align: left;
 	}
+
+	.footer-col a:hover,
+	.link-btn:hover { color: var(--fg); }
 
 	.footer-bottom {
 		display: flex;
@@ -262,28 +185,103 @@
 		border-top: 2px solid var(--border);
 	}
 
-	.footer-bottom a {
-		transition: color 0.2s;
-	}
-
-	.footer-bottom a:hover {
-		color: var(--fg-muted);
-	}
-
 	@media (max-width: 900px) {
-		.made-by {
-			flex-direction: column;
-			gap: 32px;
-			text-align: center;
-			padding: 60px 20px;
-		}
-		.made-by-bio { margin-left: auto; margin-right: auto; }
-		.made-by-links { justify-content: center; }
-		.made-by-stack { justify-content: center; }
-
 		footer { padding: 48px 20px; }
 		.footer-top { flex-direction: column; gap: 40px; }
 		.footer-cols { flex-direction: column; gap: 32px; }
 		.footer-bottom { flex-direction: column; gap: 8px; }
 	}
+
+	/* Modal content */
+	:global(.modal-body .notice) {
+		display: flex;
+		gap: 10px;
+		background: rgba(255, 255, 255, 0.04);
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 8px;
+		padding: 12px 14px;
+		font-size: 13px;
+		color: rgba(255, 255, 255, 0.5);
+		margin-bottom: 20px;
+	}
+
+	:global(.modal-body .notice::before) {
+		content: '!';
+		font-family: var(--mono);
+		font-size: 11px;
+		font-weight: 700;
+		color: rgba(255, 255, 255, 0.3);
+		background: rgba(255, 255, 255, 0.08);
+		border-radius: 50%;
+		width: 18px;
+		height: 18px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		margin-top: 1px;
+	}
+
+	:global(.modal-body .note) {
+		display: inline-block;
+		font-family: var(--mono);
+		font-size: 11px;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		color: var(--accent);
+		margin-bottom: 16px;
+	}
+
+	:global(.modal-body p) { margin-bottom: 16px; }
+	:global(.modal-body p:last-child) { margin-bottom: 0; }
+
+	:global(.modal-body strong) { color: rgba(255,255,255,0.75); font-weight: 600; }
+	:global(.modal-body .hl) { color: var(--accent); }
+
+	:global(.modal-body .items) {
+		display: flex;
+		flex-direction: column;
+		gap: 1px;
+		border: 1px solid rgba(255,255,255,0.06);
+		border-radius: 10px;
+		overflow: hidden;
+		margin-bottom: 20px;
+	}
+
+	:global(.modal-body .item) {
+		display: grid;
+		grid-template-columns: 100px 1fr;
+		gap: 12px;
+		padding: 12px 14px;
+		background: rgba(255,255,255,0.02);
+		font-size: 13px;
+		line-height: 1.6;
+	}
+
+	:global(.modal-body .item + .item) {
+		border-top: 1px solid rgba(255,255,255,0.05);
+	}
+
+	:global(.modal-body .label) {
+		font-family: var(--mono);
+		font-size: 11px;
+		color: rgba(255,255,255,0.3);
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		padding-top: 2px;
+	}
+
+	:global(.modal-body .bsl-block) {
+		background: rgba(255,255,255,0.02);
+		border: 1px solid rgba(255,255,255,0.06);
+		border-radius: 10px;
+		padding: 14px;
+		font-family: var(--mono);
+		font-size: 12px;
+		line-height: 2;
+		color: rgba(255,255,255,0.35);
+	}
+
+	:global(.modal-body .bsl-block p) { margin: 0; }
+	:global(.modal-body .dim) { color: rgba(255,255,255,0.2); }
 </style>

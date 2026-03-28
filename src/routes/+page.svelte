@@ -11,6 +11,35 @@
 	import FAQ from '$lib/components/FAQ.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 
+	let waitlistEmail = $state('');
+	let waitlistSubmitted = $state(false);
+	let waitlistLoading = $state(false);
+	let waitlistError = $state('');
+
+	async function handleWaitlist(e: SubmitEvent) {
+		e.preventDefault();
+		if (!waitlistEmail) return;
+		waitlistLoading = true;
+		waitlistError = '';
+		try {
+			const res = await fetch('/api/waitlist', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ email: waitlistEmail })
+			});
+			const data = await res.json();
+			if (data.success) {
+				waitlistSubmitted = true;
+			} else {
+				waitlistError = data.error ?? 'Something went wrong. Try again.';
+			}
+		} catch {
+			waitlistError = 'Network error. Try again.';
+		} finally {
+			waitlistLoading = false;
+		}
+	}
+
 	onMount(() => {
 		// Scroll reveal
 		const obs = new IntersectionObserver(
@@ -112,10 +141,26 @@
 	<div class="section-label" style="justify-content:center;">Early Access</div>
 	<h2 class="cta-title">Start self-hosting in five minutes</h2>
 	<p class="cta-desc">Join the waitlist. Be first in line.</p>
-	<div class="cta-email">
-		<input type="email" placeholder="you@email.com" aria-label="Email address" />
-		<button class="btn-big">Join Waitlist</button>
-	</div>
+	{#if waitlistSubmitted}
+		<p class="cta-success">You're on the list! We'll be in touch.</p>
+	{:else}
+		<form class="cta-email" onsubmit={handleWaitlist}>
+			<input
+				type="email"
+				placeholder="you@email.com"
+				aria-label="Email address"
+				required
+				disabled={waitlistLoading}
+				bind:value={waitlistEmail}
+			/>
+			<button type="submit" class="btn-big" disabled={waitlistLoading}>
+				{waitlistLoading ? '...' : 'Join Waitlist'}
+			</button>
+		</form>
+		{#if waitlistError}
+			<p class="cta-error">{waitlistError}</p>
+		{/if}
+	{/if}
 	<p class="cta-fine">No spam · Unsubscribe anytime</p>
 </div>
 
@@ -194,6 +239,12 @@
 		font-family: var(--mono);
 		font-size: 14px;
 		line-height: 2.2;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.tl {
+		white-space: nowrap;
 	}
 
 	.tp { color: var(--accent); }
@@ -407,6 +458,26 @@
 		transform: translateY(-2px);
 	}
 
+	.cta-success {
+		font-size: 18px;
+		font-family: var(--sans);
+		font-weight: 600;
+		color: var(--accent);
+		margin: 0 auto 16px;
+	}
+
+	.cta-error {
+		font-size: 13px;
+		color: #ff6b6b;
+		margin-top: 10px;
+		font-family: var(--mono);
+	}
+
+	.btn-big:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
+
 	.cta-fine {
 		font-size: 13px;
 		color: rgba(255, 255, 255, 0.3);
@@ -416,10 +487,18 @@
 
 	@media (max-width: 900px) {
 		.terminal-section { padding: 60px 20px; }
-		.stats-strip { gap: 40px; padding: 60px 24px; }
+		.terminal-body { padding: 20px; font-size: 13px; }
+		.stats-strip { gap: 32px; padding: 60px 24px; }
 		.stat-number { font-size: 52px; }
 		.cta-section { padding: 80px 20px; }
 		.cta-email { flex-direction: column; }
+		.cta-email input, .btn-big { width: 100%; box-sizing: border-box; }
 		:global(.big-wordmark) { padding: 60px 20px; }
+	}
+
+	@media (max-width: 480px) {
+		.stats-strip { gap: 20px; padding: 48px 20px; }
+		.stat-number { font-size: 44px; }
+		.stat-label { font-size: 11px; }
 	}
 </style>

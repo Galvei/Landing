@@ -8,7 +8,7 @@
 		<div class="gv-topbar-right">
 			<span class="gv-chip">DESKTOP</span>
 			<span class="gv-status green">● 3 nodes</span>
-			<span class="gv-status amber">⚡ 1 alert</span>
+			<span class="gv-status amber"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:3px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>1 alert</span>
 			<span class="gv-topbar-dim">⌘ Space</span>
 			<span class="gv-topbar-dim">⌃</span>
 			<span class="gv-avatar">J</span>
@@ -19,21 +19,49 @@
 	<div class="gv-desktop">
 		<!-- Left dock -->
 		<div class="gv-dock">
-			<div class="gv-dock-icon active" title="Files">📁</div>
-			<div class="gv-dock-icon" title="Settings">⚙️</div>
-			<div class="gv-dock-icon" title="Containers">📦</div>
-			<div class="gv-dock-icon" title="Terminal">🖥️</div>
-			<div class="gv-dock-icon" title="Monitoring">📊</div>
+			<div class="gv-dock-icon active" title="Files">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+			</div>
+			<div class="gv-dock-icon" title="Settings">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+			</div>
+			<div class="gv-dock-icon" title="Containers">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+			</div>
+			<div class="gv-dock-icon" title="Terminal">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+			</div>
+			<div class="gv-dock-icon" title="Monitoring">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+			</div>
 		</div>
 
 		<!-- Desktop icons -->
 		<div class="gv-icons">
-			<div class="gv-icon"><div class="gv-icon-img">📄</div><small>Documents</small></div>
-			<div class="gv-icon"><div class="gv-icon-img">📥</div><small>Downloads</small></div>
-			<div class="gv-icon"><div class="gv-icon-img">💾</div><small>Backups</small></div>
-			<div class="gv-icon"><div class="gv-icon-img">📝</div><small>README.md</small></div>
-			<div class="gv-icon"><div class="gv-icon-img">🐳</div><small>compose.yml</small></div>
-			<div class="gv-icon"><div class="gv-icon-img">⚡</div><small>backup.sh</small></div>
+			<div class="gv-icon">
+				<div class="gv-icon-img"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+				<small>Documents</small>
+			</div>
+			<div class="gv-icon">
+				<div class="gv-icon-img"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+				<small>Downloads</small>
+			</div>
+			<div class="gv-icon">
+				<div class="gv-icon-img"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+				<small>Backups</small>
+			</div>
+			<div class="gv-icon">
+				<div class="gv-icon-img"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+				<small>README.md</small>
+			</div>
+			<div class="gv-icon">
+				<div class="gv-icon-img"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg></div>
+				<small>compose.yml</small>
+			</div>
+			<div class="gv-icon">
+				<div class="gv-icon-img"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+				<small>backup.sh</small>
+			</div>
 		</div>
 
 		<!-- Overview window -->
@@ -59,7 +87,7 @@
 				<div class="gv-stat-box">
 					<div class="gv-stat-lbl">Services</div>
 					<div class="gv-stat-big">12/13</div>
-					<div class="gv-stat-sub amber">⚠ bazarr</div>
+					<div class="gv-stat-sub amber"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:2px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>bazarr</div>
 				</div>
 				<div class="gv-stat-box">
 					<div class="gv-stat-lbl">RAM</div>
@@ -235,9 +263,10 @@
 		font-size: 14px;
 		cursor: default;
 		transition: background 0.2s;
+		color: rgba(255, 255, 255, 0.45);
 	}
-	.gv-dock-icon:hover { background: rgba(255, 255, 255, 0.06); }
-	.gv-dock-icon.active { background: rgba(45, 212, 168, 0.1); }
+	.gv-dock-icon:hover { background: rgba(255, 255, 255, 0.06); color: rgba(255, 255, 255, 0.7); }
+	.gv-dock-icon.active { background: rgba(45, 212, 168, 0.1); color: var(--accent); }
 
 	.gv-icons {
 		width: 100px;
@@ -259,7 +288,7 @@
 		transition: background 0.2s;
 	}
 	.gv-icon:hover { background: rgba(255, 255, 255, 0.04); }
-	.gv-icon-img { font-size: 24px; }
+	.gv-icon-img { font-size: 24px; color: rgba(255, 255, 255, 0.5); display: flex; align-items: center; justify-content: center; }
 	.gv-icon small {
 		font-size: 9px;
 		font-family: var(--mono);
@@ -472,6 +501,7 @@
 		.gv-widgets { display: none; }
 		.gv-icons { width: 80px; }
 		.gv-stats-row { grid-template-columns: repeat(2, 1fr); }
+		.mockup { transform: none !important; }
 	}
 
 	@media (max-width: 600px) {

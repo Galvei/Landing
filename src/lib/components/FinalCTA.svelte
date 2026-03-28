@@ -9,7 +9,7 @@
 		<h2 class="final-title">Your cloud. Your rules.</h2>
 		<p class="final-sub">Join the waitlist and be first in line.</p>
 		<a href="#waitlist" class="final-btn">Get Early Access</a>
-		<p class="final-alt">Or <a href="https://discord.gg/galvei" class="final-link" target="_blank" rel="noopener">join the conversation on Discord</a></p>
+		<p class="final-alt">Or <a href="https://discord.gg/8xFqs4fqUq" class="final-link" target="_blank" rel="noopener">join the conversation on Discord</a></p>
 	</div>
 </section>
 
@@ -96,4 +96,14 @@
 	}
 
 	.above .final-inner { opacity: 0; transform: translateY(-24px); }
+
+	@media (max-width: 900px) {
+		.final-cta { padding: 3rem 1.5rem; min-height: auto; }
+		.final-btn {
+			display: block;
+			width: 100%;
+			text-align: center;
+			box-sizing: border-box;
+		}
+	}
 </style>

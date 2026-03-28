@@ -3,6 +3,7 @@
 	<h2 class="section-title">Not just another dashboard. A full desktop experience.</h2>
 	<p class="section-desc">Galvei replaces the patchwork of tools you're stitching together today.</p>
 
+	<div class="table-scroll">
 	<div class="compare-table">
 		<div class="compare-row header">
 			<div class="compare-cell">Feature</div>
@@ -71,6 +72,7 @@
 			<div class="compare-cell galvei-col"><span class="compare-check">✓ Wasm</span></div>
 		</div>
 	</div>
+	</div>
 	<p class="compare-note">* Pro features available with paid plans. Community Edition includes core functionality.</p>
 </section>
 
@@ -117,12 +119,20 @@
 		font-weight: 400;
 	}
 
-	.compare-table {
+	.table-scroll {
 		margin-top: 64px;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+		border-radius: 20px;
 		border: 2px solid var(--border);
+	}
+
+	.compare-table {
+		min-width: 540px;
 		border-radius: 20px;
 		overflow: hidden;
 		background: #fff;
+		width: 100%;
 	}
 
 	.compare-row {
@@ -203,7 +213,7 @@
 
 	@media (max-width: 900px) {
 		section { padding: 80px 20px; }
-		.compare-row { grid-template-columns: 1.5fr 1fr 1fr 1fr; }
-		.compare-cell { padding: 12px 10px; font-size: 12px; }
+		.table-scroll { margin-top: 40px; }
+		.compare-cell { padding: 12px 14px; font-size: 13px; }
 	}
 </style>

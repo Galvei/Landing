@@ -3,12 +3,31 @@
 	let visible = $state(false);
 	let above = $state(false);
 	let submitted = $state(false);
+	let loading = $state(false);
+	let errorMsg = $state('');
 	let email = $state('');
 
-	function handleSubmit(e: SubmitEvent) {
+	async function handleSubmit(e: SubmitEvent) {
 		e.preventDefault();
-		if (email) {
-			submitted = true;
+		if (!email) return;
+		loading = true;
+		errorMsg = '';
+		try {
+			const res = await fetch('/api/waitlist', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ email })
+			});
+			const data = await res.json();
+			if (data.success) {
+				submitted = true;
+			} else {
+				errorMsg = data.error ?? 'Something went wrong. Try again.';
+			}
+		} catch {
+			errorMsg = 'Network error. Try again.';
+		} finally {
+			loading = false;
 		}
 	}
 </script>
@@ -32,10 +51,16 @@
 					class="waitlist-input"
 					placeholder="you@email.com"
 					required
+					disabled={loading}
 					bind:value={email}
 				/>
-				<button type="submit" class="waitlist-btn">Get Early Access</button>
+				<button type="submit" class="waitlist-btn" disabled={loading}>
+					{loading ? '...' : 'Get Early Access'}
+				</button>
 			</form>
+			{#if errorMsg}
+				<p class="waitlist-error">{errorMsg}</p>
+			{/if}
 		{/if}
 
 		<ul class="waitlist-benefits">
@@ -216,6 +241,18 @@
 	.waitlist-benefits svg {
 		color: #FFD600;
 		flex-shrink: 0;
+	}
+
+	.waitlist-error {
+		font-family: 'Inter', sans-serif;
+		font-size: 0.8rem;
+		color: #ff4444;
+		margin: -1rem 0 1rem;
+	}
+
+	.waitlist-btn:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
 	}
 
 	.waitlist-privacy {

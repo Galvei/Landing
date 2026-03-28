@@ -40,11 +40,22 @@
 	let animId: number;
 	let scrollY = 0;
 	let isLight = false;
+	let isHidden = false;
 
 	// Smooth mouse tracking (lerp)
 	let smoothX = -9999;
 	let smoothY = -9999;
 	const LERP_FACTOR = 0.15;
+
+	// Framerate throttle
+	const TARGET_FPS = 30;
+	const FRAME_MS = 1000 / TARGET_FPS;
+	let lastFrameTime = 0;
+
+	// Mouse inactivity → slow down to ~10fps
+	let mouseLastActive = 0;
+	const MOUSE_IDLE_MS = 2000;
+	const IDLE_FRAME_MS = 100;
 
 	// Scroll-based dimming
 	const FADE_HEIGHT = 100; // px of gradual transition
@@ -94,7 +105,7 @@
 	}
 
 	function handleResize() {
-		dpr = window.devicePixelRatio || 1;
+		dpr = Math.min(window.devicePixelRatio || 1, 2); // cap at 2x — no need for 3x canvas
 		width = window.innerWidth;
 		height = window.innerHeight;
 
@@ -110,6 +121,7 @@
 	function handleMouseMove(e: MouseEvent) {
 		mouseX = e.clientX;
 		mouseY = e.clientY;
+		mouseLastActive = performance.now();
 	}
 
 	function handleMouseLeave() {
@@ -123,20 +135,29 @@
 
 	// --- Render loop -------------------------------------------------------------
 
-	function render() {
-		const now = performance.now();
+	function render(now: number) {
+		animId = requestAnimationFrame(render);
+
+		if (isHidden) return;
+
+		// Throttle framerate
+		const idle = now - mouseLastActive > MOUSE_IDLE_MS;
+		const interval = idle ? IDLE_FRAME_MS : FRAME_MS;
+		if (now - lastFrameTime < interval) return;
+		lastFrameTime = now;
 
 		// Smooth cursor interpolation
 		smoothX += (mouseX - smoothX) * LERP_FACTOR;
 		smoothY += (mouseY - smoothY) * LERP_FACTOR;
-
-		ctx.clearRect(0, 0, width, height);
 
 		// --- Theme-aware values ---
 		const baseAlpha = isLight ? BASE_ALPHA_LIGHT : BASE_ALPHA_DARK;
 		const bgR = isLight ? 245 : 26;
 		const bgG = isLight ? 240 : 23;
 		const bgB = isLight ? 232 : 18;
+
+		ctx.fillStyle = `rgb(${bgR},${bgG},${bgB})`;
+		ctx.fillRect(0, 0, width, height);
 
 		// --- Cursor glow halo ---
 		if (smoothX > -5000) {
@@ -289,13 +310,12 @@
 			}
 		}
 
-		animId = requestAnimationFrame(render);
 	}
 
 	// --- Lifecycle ---------------------------------------------------------------
 
 	onMount(() => {
-		ctx = canvas.getContext('2d')!;
+		ctx = canvas.getContext('2d', { alpha: false })!;
 		handleResize();
 
 		// Detect color scheme
@@ -303,6 +323,10 @@
 		isLight = mq.matches;
 		const handleScheme = (e: MediaQueryListEvent) => { isLight = e.matches; };
 		mq.addEventListener('change', handleScheme);
+
+		// Pause when tab not visible
+		const handleVisibility = () => { isHidden = document.hidden; };
+		document.addEventListener('visibilitychange', handleVisibility);
 
 		window.addEventListener('resize', handleResize);
 		window.addEventListener('mousemove', handleMouseMove);
@@ -314,6 +338,7 @@
 		return () => {
 			cancelAnimationFrame(animId);
 			mq.removeEventListener('change', handleScheme);
+			document.removeEventListener('visibilitychange', handleVisibility);
 			window.removeEventListener('resize', handleResize);
 			window.removeEventListener('mousemove', handleMouseMove);
 			window.removeEventListener('scroll', handleScroll);
@@ -335,5 +360,6 @@
 		z-index: 0;
 		pointer-events: none;
 		display: block;
+		will-change: contents;
 	}
 </style>

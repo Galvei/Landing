@@ -170,5 +170,6 @@
 
 	@media (max-width: 900px) {
 		section { padding: 80px 20px; }
+		.faq-q { font-size: 15px; padding-right: 44px; }
 	}
 </style>

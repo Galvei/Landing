@@ -19,7 +19,7 @@
 	</p>
 	<div class="hero-actions">
 		<a href="#waitlist" class="btn-big">Get Early Access</a>
-		<a href="https://discord.gg/galvei" class="btn-outline">Join Discord</a>
+		<a href="https://discord.gg/8xFqs4fqUq" class="btn-outline">Join Discord</a>
 	</div>
 	<p class="hero-note">No credit card required. Free for personal use.</p>
 
@@ -197,6 +197,10 @@
 		.btn-big, .btn-outline {
 			width: 100%;
 			justify-content: center;
+		}
+		.mockup-wrap {
+			margin-top: 40px;
+			perspective: none;
 		}
 	}
 </style>
