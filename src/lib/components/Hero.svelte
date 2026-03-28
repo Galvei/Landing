@@ -37,6 +37,7 @@
 		align-items: center;
 		text-align: center;
 		padding: 160px 32px 80px;
+		padding-top: calc(160px + env(safe-area-inset-top));
 		position: relative;
 		overflow: hidden;
 	}

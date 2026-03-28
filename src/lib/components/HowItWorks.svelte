@@ -154,5 +154,18 @@
 			gap: 24px;
 		}
 		.step-num { font-size: 52px; }
+		.cmd-block {
+			display: flex;
+			justify-content: space-between;
+			width: 100%;
+			box-sizing: border-box;
+			font-size: 12px;
+			padding: 14px 16px;
+			gap: 12px;
+		}
+		.copy-tag {
+			opacity: 1;
+			flex-shrink: 0;
+		}
 	}
 </style>
