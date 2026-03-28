@@ -152,7 +152,7 @@
 		</div>
 	</div>
 
-	<div class="mockup-label">Early concept — UI in development</div>
+	<div class="mockup-label">Early concept, UI in development</div>
 </div>
 
 <style>

@@ -37,7 +37,7 @@
 			<div class="step-num">03</div>
 			<div>
 				<h3>Install apps from the desktop</h3>
-				<p>Pick what you need. Galvei handles DNS, SSL, networking — everything.</p>
+				<p>Pick what you need. Galvei handles DNS, SSL, networking, everything.</p>
 			</div>
 		</div>
 	</div>

@@ -68,13 +68,13 @@
 </script>
 
 <svelte:head>
-	<title>Galvei — Self-hosting, simplified</title>
+	<title>Galvei: Self-hosting, simplified</title>
 	<meta name="description" content="Galvei turns any Linux machine into a personal cloud. Deploy apps, manage everything from a dashboard, no terminal needed." />
-	<meta property="og:title" content="Galvei — Self-hosting, simplified" />
+	<meta property="og:title" content="Galvei: Self-hosting, simplified" />
 	<meta property="og:description" content="One install, one dashboard, everything just works. Your personal cloud, running on your own hardware." />
 	<meta property="og:type" content="website" />
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="Galvei — Self-hosting, simplified" />
+	<meta name="twitter:title" content="Galvei: Self-hosting, simplified" />
 	<meta name="twitter:description" content="Deploy apps on your own hardware. No terminal needed." />
 </svelte:head>
 

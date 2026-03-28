@@ -85,8 +85,8 @@
 
 <Modal bind:open={bslOpen} title="Business Source License 1.1">
 	{#snippet children()}
-		<p class="notice">The final license has not been decided yet. BSL 1.1 is a placeholder — the licensing model may change before launch.</p>
-		<p>Currently listed under <strong class="hl">BSL 1.1</strong> — source-available with a time-delayed open-source conversion.</p>
+		<p class="notice">The final license has not been decided yet. BSL 1.1 is a placeholder; the licensing model may change before launch.</p>
+		<p>Currently listed under <strong class="hl">BSL 1.1</strong>, source-available with a time-delayed open-source conversion.</p>
 		<div class="items" style="margin-top: 20px;">
 			<div class="item">
 				<span class="label">You can</span>

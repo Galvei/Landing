@@ -128,11 +128,12 @@
 	@media (max-width: 900px) {
 		nav {
 			padding: 12px 20px;
+			padding-top: calc(12px + env(safe-area-inset-top));
 		}
 
 		.nav-links {
 			position: fixed;
-			top: 53px;
+			top: calc(53px + env(safe-area-inset-top));
 			left: 0;
 			right: 0;
 			flex-direction: column;

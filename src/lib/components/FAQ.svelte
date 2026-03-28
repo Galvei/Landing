@@ -16,11 +16,11 @@
 		},
 		{
 			q: 'What apps can I run?',
-			a: 'Anything that runs in Docker — Jellyfin, Nextcloud, Vaultwarden, Immich, Home Assistant, Gitea, Plausible, and hundreds more. If it has a Docker image, Galvei can run it.'
+			a: 'Anything that runs in Docker: Jellyfin, Nextcloud, Vaultwarden, Immich, Home Assistant, Gitea, Plausible, and hundreds more. If it has a Docker image, Galvei can run it.'
 		},
 		{
 			q: 'How is this different from CasaOS / Umbrel?',
-			a: 'CasaOS and Umbrel are great starters but lack built-in networking, reverse proxy, and security. Galvei bundles containers, SSL, auth, monitoring, file management, and backups into one desktop — no need to bolt on Nginx Proxy Manager, Portainer, and Uptime Kuma separately. Plus, Galvei offers NIS2 compliance features for European businesses.'
+			a: 'CasaOS and Umbrel are great starters but lack built-in networking, reverse proxy, and security. Galvei bundles containers, SSL, auth, monitoring, file management, and backups into one desktop, no need to bolt on Nginx Proxy Manager, Portainer, and Uptime Kuma separately. Plus, Galvei offers NIS2 compliance features for European businesses.'
 		},
 		{
 			q: 'Is Galvei free?',

@@ -188,7 +188,7 @@
 	}
 
 	@media (max-width: 900px) {
-		.hero { padding: 120px 20px 60px; }
+		.hero { padding: 120px 20px 60px; padding-top: calc(120px + env(safe-area-inset-top)); }
 		.hero-shapes { display: none; }
 		.hero-actions {
 			flex-direction: column;
