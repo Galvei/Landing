@@ -22,7 +22,6 @@
 			<div class="footer-col">
 				<h4>Community</h4>
 				<a href="https://discord.gg/8xFqs4fqUq">Discord</a>
-				<a href="https://github.com/galvei">GitHub</a>
 			</div>
 			<div class="footer-col">
 				<h4>Legal</h4>
